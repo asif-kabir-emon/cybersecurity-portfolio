@@ -1,7 +1,24 @@
-import { NextResponse } from "next/server";
-import initializeApp from "./lib/initialize";
+import { NextRequest, NextResponse } from "next/server";
+import { validateToken } from "./utils/validateToken";
 
-export async function middleware() {
-  // await initializeApp();
+export async function middleware(req: NextRequest) {
+  const token = req.cookies.get("accessToken")?.value;
+
+  if (req.nextUrl.pathname.startsWith("/dashboard")) {
+    if (!token) return NextResponse.redirect(new URL("/login", req.url));
+    const isValid = await validateToken(
+      token,
+      process.env.JWT_SECRET as string,
+    );
+
+    if (!isValid) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+  }
+
   return NextResponse.next();
 }
+
+export const config = {
+  matcher: ["/dashboard"],
+};
