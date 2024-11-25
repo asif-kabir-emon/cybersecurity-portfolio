@@ -4,24 +4,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "sonner";
 
 const Login = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Cast e.target to HTMLFormElement
-    const form = e.target as HTMLFormElement;
+    const toastId = toast.loading("Logging in", { position: "top-center" });
+    setLoading(true);
 
-    // Access the email and password values
+    const form = e.target as HTMLFormElement;
     const email = (form.elements.namedItem("email") as HTMLInputElement)?.value;
     const password = (form.elements.namedItem("password") as HTMLInputElement)
       ?.value;
-
-    console.log("Email:", email);
-    console.log("Password:", password);
 
     try {
       const response = await fetch("/api/login", {
@@ -32,34 +31,36 @@ const Login = () => {
         body: JSON.stringify({ email, password }),
       });
 
+      const res = await response.json();
+
       if (!response.ok) {
-        throw new Error("Failed to login");
+        throw new Error(res?.message);
       }
-
-      const data = await response.json();
-      console.log("Response Data:", data);
-
       const cookieExpiresIn = new Date(new Date().getTime() + 120 * 60 * 1000);
 
-      Cookies.set("accessToken", data.data.accessToken, {
+      Cookies.set("accessToken", res.data.accessToken, {
         path: "/",
         secure: true,
         sameSite: "strict",
         expires: cookieExpiresIn,
       });
 
-      router.push("/dashboard");
+      toast.success("Logged In Successfully", { id: toastId, duration: 2000 });
 
-      alert("Login successful!");
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Login failed. Please try again.");
+      router.push("/profiles");
+    } catch (error: any) {
+      toast.error(error?.message || "Failed to Logged In", {
+        id: toastId,
+        duration: 2000,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen w-full flex justify-center items-center">
-      <div className="bg-slate-100 shadow-sm rounded-xl p-5 min-w-80 md:min-w-96">
+      <div className="bg-slate-100 shadow-sm rounded-xl p-5 min-w-80 md:min-w-96 my-10 md:my-20">
         <h1 className="text-2xl font-bold text-center mb-5">Login</h1>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2.5">
@@ -82,7 +83,11 @@ const Login = () => {
               />
             </div>
           </div>
-          <Button type="submit" className="rounded mt-3 w-full">
+          <Button
+            type="submit"
+            className="rounded mt-3 w-full"
+            disabled={loading}
+          >
             Login
           </Button>
         </form>
