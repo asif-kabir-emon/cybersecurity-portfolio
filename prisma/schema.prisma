@@ -7,14 +7,138 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model skills {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-}
-
 model user {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   email String 
   password String
   createdAt DateTime @default(now())
   @@unique([email])
+}
+
+model profiles {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  image String?
+  title String 
+  bio String?
+  email String?
+  phone String?
+  social_media INFO[]
+  skills SKILLS_INFO[]
+  projects INFO[] 
+  experiences INFO[]
+  certifications INFO[]
+  blogs INFO[]
+  is_active Boolean @default(false)
+  createdAt DateTime @default(now())
+  @@unique([name, title])
+}
+
+type INFO {
+  is_active Boolean @default(true)
+  ids String[] @db.ObjectId @default([])
+}
+
+type SKILLS_INFO {
+  is_active Boolean @default(true)
+  skills SKILLS_LIST[]
+}
+
+type SKILLS_LIST {
+  name String
+  ids String[] @db.ObjectId @default([])
+}
+
+model social_media {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  platform SOCIAL_MEDIA_PLATFORM
+  url String
+  createdAt DateTime @default(now())
+  @@unique([platform, url])
+}
+
+enum SOCIAL_MEDIA_PLATFORM {
+  LinkedIn
+  Twitter
+  Github
+  Facebook
+  Instagram
+  Youtube
+  Whatsapp
+  Telegram
+  Discord
+}
+
+model skills {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  categoryId String @db.ObjectId
+  name String
+  level SKILL_LEVELS
+  createdAt DateTime @default(now())
+  category  skill_categories @relation(fields: [categoryId], references: [id])
+  @@unique([categoryId, name])
+}
+
+enum SKILL_LEVELS {
+  Beginner
+  Intermediate
+  Advanced
+  Expert
+}
+
+model skill_categories {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  createdAt DateTime @default(now())
+  skills    skills[]
+  @@unique([name])
+}
+
+model projects {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  images String[]
+  title String
+  description String
+  technologies String[]
+  startDate DateTime?
+  endDate DateTime?
+  github_link String
+  live_demo String
+  tags String[]
+  createdAt DateTime @default(now())
+  @@unique([title])
+}
+
+model experiences {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  company_name String
+  position String
+  startDate DateTime
+  endDate DateTime
+  description String
+  createdAt DateTime @default(now())
+  @@unique([company_name, position])
+}
+
+model certifications {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  description String
+  issuer String
+  issue_date DateTime
+  expiration_date DateTime
+  credential_id String
+  credential_url String
+  createdAt DateTime @default(now())
+  @@unique([title])
+}
+
+model blogs {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  content String
+  tags String[]
+  image String
+  createdAt DateTime @default(now())
+  @@unique([title])
 }
