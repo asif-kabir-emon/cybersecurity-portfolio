@@ -14,6 +14,16 @@ export const POST = authGuard(
       return ApiError(400, "Invalid payload!");
     }
 
+    const isExists = await prisma.skill_categories.findFirst({
+      where: {
+        name,
+      },
+    });
+
+    if (isExists) {
+      return ApiError(400, "Category already exists.");
+    }
+
     const skill = await prisma.skill_categories.create({
       data: {
         name,
@@ -35,7 +45,9 @@ export const POST = authGuard(
 
 export const GET = authGuard(
   catchAsync(async (request: Request) => {
-    const skills = await prisma.skill_categories.findMany();
+    const skills = (await prisma.skill_categories.findMany()).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    );
 
     return sendResponse({
       status: 200,

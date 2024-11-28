@@ -33,7 +33,11 @@ export const POST = authGuard(
 
 export const GET = authGuard(
   catchAsync(async (request: Request) => {
-    const skills = await prisma.skills.findMany();
+    const skills = await prisma.skills.findMany({
+      include: {
+        category: true,
+      },
+    });
 
     return sendResponse({
       status: 200,

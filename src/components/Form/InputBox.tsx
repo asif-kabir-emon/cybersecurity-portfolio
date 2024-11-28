@@ -3,7 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 
-type InputProps = {
+type InputBoxProps = {
   name: string;
   type?: string;
   label?: string;
@@ -19,7 +19,7 @@ const InputBox = ({
   placeholder,
   fullWidth = true,
   required = false,
-}: InputProps) => {
+}: InputBoxProps) => {
   const { control } = useFormContext();
 
   return (

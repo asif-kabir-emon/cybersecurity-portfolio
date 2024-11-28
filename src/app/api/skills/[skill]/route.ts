@@ -8,7 +8,8 @@ const prisma = new PrismaClient();
 
 export const GET = authGuard(
   catchAsync(async (request: Request, context: any) => {
-    const { skillId } = context.params.skill;
+    const skillId = context.params.skill;
+    console.log(skillId);
 
     if (!skillId) {
       return ApiError(400, "Invalid payload!");
@@ -31,11 +32,21 @@ export const GET = authGuard(
 
 export const PUT = authGuard(
   catchAsync(async (request: Request, context: any) => {
-    const { skillId } = context.params.skill;
+    const skillId = context.params.skill;
     const { categoryId, name, level } = await request.json();
 
     if (!skillId || !name || !level || !categoryId) {
       return ApiError(400, "Invalid payload!");
+    }
+
+    const skillExist = await prisma.skills.findUnique({
+      where: {
+        id: skillId,
+      },
+    });
+
+    if (!skillExist) {
+      return ApiError(404, "Skill Not Found!");
     }
 
     const updatedSkill = await prisma.skills.update({
@@ -60,7 +71,7 @@ export const PUT = authGuard(
 
 export const DELETE = authGuard(
   catchAsync(async (request: Request, context: any) => {
-    const { skillId } = context.params.skill;
+    const skillId = context.params.skill;
 
     if (!skillId) {
       return ApiError(400, "Invalid payload!");

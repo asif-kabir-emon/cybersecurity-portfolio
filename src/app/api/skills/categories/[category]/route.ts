@@ -89,6 +89,16 @@ export const DELETE = authGuard(
       return ApiError(404, "Category not found.");
     }
 
+    const isRelatedSkillExists = await prisma.skills.count({
+      where: {
+        categoryId,
+      },
+    });
+
+    if (isRelatedSkillExists > 0) {
+      return ApiError(400, "Category has skills. Please delete them first.");
+    }
+
     await prisma.skill_categories.delete({
       where: {
         id: categoryId,

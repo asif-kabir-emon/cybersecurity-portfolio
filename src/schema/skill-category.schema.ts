@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const skillCategorySchema = z.object({
+export const SkillCategorySchema = z.object({
   name: z
     .string({
       required_error: "Name is required",

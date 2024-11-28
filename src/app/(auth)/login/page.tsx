@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { authKey } from "@/constants";
 import { Label } from "@radix-ui/react-label";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -38,7 +39,7 @@ const Login = () => {
       }
       const cookieExpiresIn = new Date(new Date().getTime() + 120 * 60 * 1000);
 
-      Cookies.set("accessToken", res.data.accessToken, {
+      Cookies.set(authKey, res.data.accessToken, {
         path: "/",
         secure: true,
         sameSite: "strict",

@@ -2,79 +2,90 @@ import InputBox from "@/components/Form/InputBox";
 import Form from "@/components/Form/Form";
 import { DrawerDialog } from "@/components/Shared/Drawer/DialogDrawer";
 import { Button } from "@/components/ui/button";
+import { SkillCategorySchema } from "@/schema/skill-category.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
+import { SquarePen } from "lucide-react";
 import React from "react";
 import { FieldValues } from "react-hook-form";
-import { SkillSchema } from "@/schema/skill.schema";
-import SelectBox from "@/components/Form/SelectBox";
-import { Skill_Level } from "@/constants";
 import {
-  useAddSkillMutation,
   useGetCategoriesQuery,
+  useUpdateSkillMutation,
 } from "@/redux/api/skillApi";
 import { toast } from "sonner";
+import SelectBox from "@/components/Form/SelectBox";
+import { Skill_Level } from "@/constants";
+import { SkillSchema } from "@/schema/skill.schema";
 
-const CreateSkill = () => {
+const UpdateSkill = ({
+  skillId,
+  skillName,
+  skillLevel,
+  skillCategory,
+}: {
+  skillId: string;
+  skillName: string;
+  skillLevel: string;
+  skillCategory: string;
+}) => {
   const [open, setOpen] = React.useState(false);
-
   const { data: categories, isLoading: categoriesFetching } =
     useGetCategoriesQuery({});
-  const Skill_Category =
-    categories?.data?.map((category: { name: string; id: string }) => ({
+  const Skill_Category = categories?.data.map(
+    (category: { name: string; id: string }) => ({
       label: category.name,
       value: category.id,
-    })) || [];
+    }),
+  );
 
-  const [addSkill, { isLoading: isCreating }] = useAddSkillMutation();
+  const [updateSkill, { isLoading: isUpdating }] = useUpdateSkillMutation();
 
   const onSubmit = async (data: FieldValues) => {
-    const toastId = toast.loading("Please Wait! Try to add new Skill.", {
+    const toastId = toast.loading("Please Wait! Try to update skill.", {
       position: "top-center",
     });
     console.log(data);
     try {
-      const response = await addSkill(data).unwrap();
-      console.log(response);
+      const response = await updateSkill({
+        id: skillId,
+        body: data,
+      }).unwrap();
 
       if (response?.success) {
-        toast.success(response?.message || "Skill added successfully.", {
+        toast.success(response?.message || "Skill updated successfully.", {
           id: toastId,
         });
         setOpen(false);
       } else {
         throw new Error(
-          response?.message || "Failed to add skill. Please try again.",
+          response?.message || "Failed to updated skill. Please try again.",
         );
       }
     } catch (error: any) {
-      toast.error(error?.message || "Failed to add skill. Please try again.", {
-        id: toastId,
-      });
+      toast.error(
+        error?.message || "Failed to update skill. Please try again.",
+        { id: toastId },
+      );
     }
   };
+
   return (
     <div>
-      <Button
-        className="rounded-2xl text-sm py-0"
+      <button
+        title="Update Skill"
+        className="text-green-700 hover:bg-green-600 hover:text-white p-2 rounded-full"
         onClick={() => setOpen(true)}
       >
-        <Plus /> Add Skills
-      </Button>
-      <DrawerDialog
-        open={open}
-        setOpen={setOpen}
-        title="Create Skill"
-        description="Create a new Skill under a category. For example, you can create a skill called 'React' under 'Front-End' category."
-      >
+        <SquarePen className="w-5 h-5" />
+      </button>
+      <DrawerDialog open={open} setOpen={setOpen} title="Update Skill">
         <div>
           <Form
             onSubmit={onSubmit}
             resolver={zodResolver(SkillSchema)}
             defaultValues={{
-              categoryId: "",
-              name: "",
-              level: "",
+              name: skillName,
+              level: skillLevel,
+              categoryId: skillCategory,
             }}
           >
             <div className="flex flex-col gap-3">
@@ -103,7 +114,7 @@ const CreateSkill = () => {
             <Button
               type="submit"
               className="mt-5 w-full"
-              disabled={categoriesFetching || isCreating}
+              disabled={categoriesFetching || isUpdating}
             >
               Save
             </Button>
@@ -114,4 +125,4 @@ const CreateSkill = () => {
   );
 };
 
-export default CreateSkill;
+export default UpdateSkill;

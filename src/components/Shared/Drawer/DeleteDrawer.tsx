@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,17 +22,21 @@ import {
 type DrawerDialogProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
+  isDisabled?: boolean;
   title: string;
   description?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  onSubmit?: () => void;
 };
 
-export function DrawerDialog({
+export function DrawerDelete({
   open,
   setOpen,
   title,
   description = "",
   children,
+  onSubmit,
+  isDisabled = false,
 }: DrawerDialogProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -42,12 +47,17 @@ export function DrawerDialog({
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>
-          {description.length > 0 && (
-            <DialogDescription className="text-gray-700">
-              {description}
-            </DialogDescription>
-          )}
+          <DialogDescription className="text-sm text-black">
+            {description}
+          </DialogDescription>
           {children}
+          <Button
+            className="mt-5 w-full bg-red-500 hover:bg-red-600 text-white"
+            onClick={onSubmit}
+            disabled={isDisabled}
+          >
+            Delete
+          </Button>
         </DialogContent>
       </Dialog>
     );
@@ -61,12 +71,17 @@ export function DrawerDialog({
         </DrawerHeader>
         <DrawerFooter>
           <div>
-            {description.length > 0 && (
-              <DialogDescription className="text-gray-700">
-                {description}
-              </DialogDescription>
-            )}
+            <DialogDescription className="text-md text-black">
+              {description}
+            </DialogDescription>
             {children}
+            <Button
+              className="mt-7 w-full bg-red-500 hover:bg-red-600 text-white"
+              onClick={onSubmit}
+              disabled={isDisabled}
+            >
+              Delete
+            </Button>
           </div>
           <DrawerClose asChild>
             <Button variant="outline" className="mt-2">
