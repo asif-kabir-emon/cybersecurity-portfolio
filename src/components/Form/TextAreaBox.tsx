@@ -1,25 +1,23 @@
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 
-type InputBoxProps = {
+type TextAreaBoxProps = {
   name: string;
-  type?: string;
   label?: string;
   placeholder?: string;
   fullWidth?: boolean;
   required?: boolean;
 };
 
-const InputBox = ({
+const TextAreaBox = ({
   name,
-  type = "text",
   label,
   placeholder,
   fullWidth = true,
   required = false,
-}: InputBoxProps) => {
+}: TextAreaBoxProps) => {
   const { control } = useFormContext();
 
   return (
@@ -32,13 +30,13 @@ const InputBox = ({
         name={name}
         render={({ field, fieldState: { error } }) => (
           <>
-            <Input
+            <Textarea
               {...field}
-              type={type}
               placeholder={placeholder}
               className={`w-full py-2 px-3 focus:outline-none mt-1 focus:border-primary ${
                 error ? "border-red-400" : ""
               }`}
+              rows={5}
             />
             {error && (
               <span className="text-red-500 text-sm">{error.message}</span>
@@ -50,4 +48,4 @@ const InputBox = ({
   );
 };
 
-export default InputBox;
+export default TextAreaBox;

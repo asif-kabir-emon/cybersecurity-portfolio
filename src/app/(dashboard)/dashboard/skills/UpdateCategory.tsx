@@ -59,12 +59,7 @@ const UpdateCategory = ({
       >
         <SquarePen /> Update
       </Button>
-      <DrawerDialog
-        open={open}
-        setOpen={setOpen}
-        title="Update Category"
-        description={`Category Name: ${categoryName}`}
-      >
+      <DrawerDialog open={open} setOpen={setOpen} title="Update Category">
         <div>
           <Form
             onSubmit={onSubmit}

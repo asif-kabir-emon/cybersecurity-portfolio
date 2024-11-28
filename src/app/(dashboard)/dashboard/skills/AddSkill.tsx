@@ -15,7 +15,7 @@ import {
 } from "@/redux/api/skillApi";
 import { toast } from "sonner";
 
-const CreateSkill = () => {
+const AddSkill = () => {
   const [open, setOpen] = React.useState(false);
 
   const { data: categories, isLoading: categoriesFetching } =
@@ -64,7 +64,7 @@ const CreateSkill = () => {
       <DrawerDialog
         open={open}
         setOpen={setOpen}
-        title="Create Skill"
+        title="Add Skill"
         description="Create a new Skill under a category. For example, you can create a skill called 'React' under 'Front-End' category."
       >
         <div>
@@ -114,4 +114,4 @@ const CreateSkill = () => {
   );
 };
 
-export default CreateSkill;
+export default AddSkill;

@@ -10,7 +10,7 @@ import { FieldValues } from "react-hook-form";
 import { useAddCategoryMutation } from "@/redux/api/skillApi";
 import { toast } from "sonner";
 
-const CreateCategory = () => {
+const AddCategory = () => {
   const [open, setOpen] = React.useState(false);
   const [addCategory, { isLoading: isCreating }] = useAddCategoryMutation();
 
@@ -52,7 +52,7 @@ const CreateCategory = () => {
       <DrawerDialog
         open={open}
         setOpen={setOpen}
-        title="Create Category"
+        title="Add Category"
         description="Skill's categories refers to which category belongs to skills. For example, if you have a skill called 'React', you can categorize it under 'Front-End' category."
       >
         <div>
@@ -79,4 +79,4 @@ const CreateCategory = () => {
   );
 };
 
-export default CreateCategory;
+export default AddCategory;

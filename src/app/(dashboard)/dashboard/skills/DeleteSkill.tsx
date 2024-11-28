@@ -46,7 +46,7 @@ const DeleteSkill = ({
     <div>
       <button
         title="Delete Skill"
-        className="text-red-600 hover:bg-red-600 hover:text-white p-2 rounded-full"
+        className="text-red-500 hover:bg-slate-200 p-2 rounded-full"
         onClick={() => setOpen(true)}
       >
         <Trash2 className="w-5 h-5" />

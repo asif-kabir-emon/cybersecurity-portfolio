@@ -72,7 +72,7 @@ const UpdateSkill = ({
     <div>
       <button
         title="Update Skill"
-        className="text-green-700 hover:bg-green-600 hover:text-white p-2 rounded-full"
+        className="hover:bg-slate-200 p-2 rounded-full"
         onClick={() => setOpen(true)}
       >
         <SquarePen className="w-5 h-5" />

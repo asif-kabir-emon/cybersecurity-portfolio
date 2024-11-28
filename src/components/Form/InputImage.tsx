@@ -3,23 +3,19 @@ import { Controller, useFormContext } from "react-hook-form";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 
-type InputBoxProps = {
+type InputImageProps = {
   name: string;
-  type?: string;
   label?: string;
-  placeholder?: string;
   fullWidth?: boolean;
   required?: boolean;
 };
 
-const InputBox = ({
+const InputImage = ({
   name,
-  type = "text",
   label,
-  placeholder,
   fullWidth = true,
   required = false,
-}: InputBoxProps) => {
+}: InputImageProps) => {
   const { control } = useFormContext();
 
   return (
@@ -34,8 +30,7 @@ const InputBox = ({
           <>
             <Input
               {...field}
-              type={type}
-              placeholder={placeholder}
+              type="file"
               className={`w-full py-2 px-3 focus:outline-none mt-1 focus:border-primary ${
                 error ? "border-red-400" : ""
               }`}
@@ -50,4 +45,4 @@ const InputBox = ({
   );
 };
 
-export default InputBox;
+export default InputImage;

@@ -35,7 +35,7 @@ const CategoriesList = () => {
           </div>
         )}
 
-        {categories?.data.map((category: { name: string; id: string }) => (
+        {categories?.data?.map((category: { name: string; id: string }) => (
           <div
             key={category.id}
             className="flex flex-row justify-center items-center gap-2 bg-gray-700 text-white text-sm rounded-full px-5 py-1"
