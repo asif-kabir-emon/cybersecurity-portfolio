@@ -100,8 +100,8 @@ model projects {
   title String
   description String
   technologies String[]
-  startDate Month_Year?
-  endDate Month_Year?
+  startDate Month_Year
+  endDate Month_Year
   github_link String?
   live_demo String?
   video_demo String?

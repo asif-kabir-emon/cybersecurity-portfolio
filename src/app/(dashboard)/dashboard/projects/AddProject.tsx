@@ -14,17 +14,19 @@ import TextEditor from "@/components/Form/TextEditor";
 import SelectMonthYear from "@/components/Form/SelectMonthYear";
 import CheckBox from "@/components/Form/CheckBox";
 import InputImages from "@/components/Form/InputImages";
-import { title } from "process";
 import { ProjectSchema } from "@/schema/project.schema";
+import { useAddProjectMutation } from "@/redux/api/projectApi";
+import { modifyPayload } from "@/utils/modifyPayload";
 
 const AddProject = () => {
   const [open, setOpen] = React.useState(false);
-  const [addCategory, { isLoading: isCreating }] = useAddCategoryMutation();
+  const [addProject, { isLoading: isCreating }] = useAddProjectMutation();
 
   const onSubmit = async (data: FieldValues) => {
     ["startDate", "endDate"].forEach((field) => {
       if (data[field]?.month === "Null" || data[field]?.year === "Null") {
-        delete data[field];
+        data[field].month = null;
+        data[field].year = null;
       } else {
         data[field].month = parseInt(data[field].month);
         data[field].year = parseInt(data[field].year);
@@ -32,35 +34,42 @@ const AddProject = () => {
     });
 
     if (data.isCurrentlyWorking) {
-      delete data["endDate"];
+      data["endDate"].month = null;
+      data["endDate"].year = null;
     }
 
-    console.log(data);
+    const uploadedImages = data.images;
+    delete data.images;
 
-    // const toastId = toast.loading("Please Wait! Try to add new Category.", {
-    //   position: "top-center",
-    // });
-    // console.log(data);
-    // try {
-    //   const response = await addCategory(data).unwrap();
-    //   console.log(response);
+    const payload = {
+      ...data,
+      files: uploadedImages,
+    };
+    const modifiedData = modifyPayload(payload);
 
-    //   if (response?.success) {
-    //     toast.success(response?.message || "Category added successfully.", {
-    //       id: toastId,
-    //     });
-    //     setOpen(false);
-    //   } else {
-    //     throw new Error(
-    //       response?.message || "Failed to add category. Please try again.",
-    //     );
-    //   }
-    // } catch (error: any) {
-    //   toast.error(
-    //     error?.message || "Failed to add category. Please try again.",
-    //     { id: toastId },
-    //   );
-    // }
+    const toastId = toast.loading("Please Wait! Try to add new Project.", {
+      position: "top-center",
+    });
+    try {
+      const response = await addProject(modifiedData).unwrap();
+      console.log(response);
+
+      if (response?.success) {
+        toast.success(response?.message || "Project added successfully.", {
+          id: toastId,
+        });
+        setOpen(false);
+      } else {
+        throw new Error(
+          response?.message || "Failed to add project. Please try again.",
+        );
+      }
+    } catch (error: any) {
+      toast.error(
+        error?.message || "Failed to add project. Please try again.",
+        { id: toastId },
+      );
+    }
   };
 
   return (
@@ -85,7 +94,7 @@ const AddProject = () => {
             defaultValues={{
               title: "",
               description: "",
-              image: [],
+              images: [],
               startDate: {
                 month: "Null",
                 year: "Null",
@@ -111,7 +120,7 @@ const AddProject = () => {
                 required={true}
               />
 
-              <InputImages name="image" label="Project Images" />
+              <InputImages name="images" label="Project Images" />
 
               <SelectMonthYear name="startDate" label="Start Date" />
               <SelectMonthYear
@@ -144,7 +153,7 @@ const AddProject = () => {
                 placeholder="Enter Video URL"
               />
             </div>
-            <Button type="submit" className="mt-5 w-full" disabled={false}>
+            <Button type="submit" className="mt-5 w-full" disabled={isCreating}>
               Save
             </Button>
           </Form>

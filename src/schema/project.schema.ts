@@ -1,4 +1,11 @@
 import { z } from "zod";
+const MAX_FILE_SIZE = 5000000;
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
 
 export const ProjectSchema = z.object({
   title: z
@@ -24,18 +31,27 @@ export const ProjectSchema = z.object({
     })
     .optional(),
   isCurrentlyWorking: z.boolean().optional(),
-  image: z
-    .array(
-      z.object({
-        name: z.string(), // File name
-        type: z.string(), // MIME type (e.g., "image/jpeg")
-        size: z.number(), // File size in bytes
-        lastModified: z.number(), // Timestamp of the last modification
+  images: z
+    .any()
+    .refine((files) =>
+      files.every((file: any) => file?.size <= MAX_FILE_SIZE, {
+        message: "Max image size is 5MB.",
       }),
     )
-    .default([])
+    .refine(
+      (files) =>
+        files.every(
+          (file: any) =>
+            ACCEPTED_IMAGE_TYPES.includes(file?.type) &&
+            file?.size <= MAX_FILE_SIZE,
+        ),
+      {
+        message:
+          "Only .jpg, .jpeg, .png, and .webp formats are supported, and each file must not exceed 5MB.",
+      },
+    )
     .optional(),
-  github_link: z.string().url("Invalid URL format").optional(),
-  live_demo: z.string().url("Invalid URL format").optional(),
-  video_demo: z.string().url("Invalid URL format").optional(),
+  github_link: z.string().optional(),
+  live_demo: z.string().optional(),
+  video_demo: z.string().optional(),
 });

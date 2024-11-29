@@ -105,6 +105,9 @@ const InputImages = ({
                 </div>
               ))}
             </div>
+            {error && (
+              <span className="text-red-500 text-sm">{error.message}</span>
+            )}
           </>
         )}
       />
