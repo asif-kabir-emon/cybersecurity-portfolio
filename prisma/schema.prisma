@@ -144,7 +144,7 @@ model blogs {
   title String
   content String
   tags String[]
-  image String
+  image String?
   createdAt DateTime @default(now())
   @@unique([title])
 }

@@ -1,15 +1,12 @@
 import InputBox from "@/components/Form/InputBox";
 import Form from "@/components/Form/Form";
 import { Button } from "@/components/ui/button";
-import { SkillCategorySchema } from "@/schema/skill-category.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
 import React from "react";
-import { FieldValues, useWatch } from "react-hook-form";
-import { useAddCategoryMutation } from "@/redux/api/skillApi";
+import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { ResponsiveDrawer } from "@/components/Shared/Drawer/ResponsiveDrawer";
-import InputImage from "@/components/Form/InputImage";
 import TextEditor from "@/components/Form/TextEditor";
 import SelectMonthYear from "@/components/Form/SelectMonthYear";
 import CheckBox from "@/components/Form/CheckBox";

@@ -9,7 +9,7 @@ export const ProjectApi = baseApi.injectEndpoints({
         url: `${Route_URL}`,
         method: "POST",
         contentType: "multipart/form-data",
-        data: data,
+        data,
       }),
       invalidatesTags: [TagTypes.project],
     }),

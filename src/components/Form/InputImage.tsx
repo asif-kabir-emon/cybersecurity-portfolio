@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -16,7 +16,8 @@ const InputImage = ({
   fullWidth = true,
   required = false,
 }: InputImageProps) => {
-  const { control } = useFormContext();
+  const { control, setValue } = useFormContext();
+  const [fileName, setFileName] = useState<string | null>(null);
 
   return (
     <div>
@@ -29,8 +30,17 @@ const InputImage = ({
         render={({ field, fieldState: { error } }) => (
           <>
             <Input
-              {...field}
               type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  setValue(name, file);
+                  setFileName(file.name);
+                } else {
+                  setFileName(null);
+                }
+              }}
               className={`w-full py-2 px-3 focus:outline-none mt-1 focus:border-primary ${
                 error ? "border-red-400" : ""
               }`}

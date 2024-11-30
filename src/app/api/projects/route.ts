@@ -8,8 +8,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const POST = authGuard(
-  catchAsync(async (req: any, res: any) => {
-    const formData = await req.formData();
+  catchAsync(async (request: any, context: any) => {
+    const formData = await request.formData();
 
     const files = formData.getAll("files") as File[];
     const data = JSON.parse(formData.get("data"));
@@ -138,7 +138,7 @@ export const POST = authGuard(
 );
 
 export const GET = authGuard(
-  catchAsync(async (req: any, res: any) => {
+  catchAsync(async (request: Request, context: any) => {
     // sort by start date in descending order
     const projects = await prisma.projects.findMany({
       orderBy: [
