@@ -1,39 +1,40 @@
 "use client";
 import { Trash2 } from "lucide-react";
 import React from "react";
-import { useDeleteSkillMutation } from "@/redux/api/skillApi";
 import { toast } from "sonner";
 import { DrawerDelete } from "@/components/Shared/Drawer/DeleteDrawer";
+import { useDeleteProjectMutation } from "@/redux/api/projectApi";
 
-const DeleteSkill = ({
-  skillId,
-  skillName,
+const DeleteProject = ({
+  projectId,
+  projectTitle,
 }: {
-  skillId: string;
-  skillName: string;
+  projectId: string;
+  projectTitle: string;
 }) => {
   const [open, setOpen] = React.useState(false);
-  const [deleteSkill, { isLoading: isDeleting }] = useDeleteSkillMutation();
+  const [deleteProject, { isLoading: isDeleting }] = useDeleteProjectMutation();
 
   const onDelete = async (id: string) => {
-    const toastId = toast.loading("Please Wait! Try to delete skill.", {
+    const toastId = toast.loading("Please Wait! Try to delete Project.", {
       position: "top-center",
     });
     try {
-      const response = await deleteSkill(id).unwrap();
+      const response = await deleteProject(id).unwrap();
+      console.log(response);
 
       if (response?.success) {
-        toast.success(response?.message || "Skill deleted successfully.", {
+        toast.success(response?.message || "Project deleted successfully.", {
           id: toastId,
         });
       } else {
         throw new Error(
-          response?.message || "Failed to delete skill. Please try again.",
+          response?.message || "Failed to delete project. Please try again.",
         );
       }
     } catch (error: any) {
       toast.error(
-        error?.message || "Failed to delete skill. Please try again.",
+        error?.message || "Failed to delete project. Please try again.",
         { id: toastId },
       );
     } finally {
@@ -44,7 +45,7 @@ const DeleteSkill = ({
   return (
     <div>
       <button
-        aria-label="Delete Skill"
+        aria-label="Delete Project"
         className="text-red-500 hover:bg-slate-200 p-2 rounded-full"
         onClick={() => setOpen(true)}
       >
@@ -53,13 +54,13 @@ const DeleteSkill = ({
       <DrawerDelete
         open={open}
         setOpen={setOpen}
-        title={`Delete Skill`}
-        onSubmit={() => onDelete(skillId)}
+        title={`Delete Project`}
+        onSubmit={() => onDelete(projectId)}
         isDisabled={isDeleting}
-        description={`Are you sure you want to delete "${skillName}" skill?`}
+        description={`Are you sure you want to delete "${projectTitle}" project?`}
       ></DrawerDelete>
     </div>
   );
 };
 
-export default DeleteSkill;
+export default DeleteProject;

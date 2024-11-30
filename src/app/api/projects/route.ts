@@ -14,8 +14,6 @@ export const POST = authGuard(
     const files = formData.getAll("files") as File[];
     const data = JSON.parse(formData.get("data"));
 
-    console.log(files[0]);
-
     if (!data.title || !data.description) {
       return ApiError(400, "Payload must contain title and description.");
     }
@@ -143,12 +141,10 @@ export const GET = authGuard(
   catchAsync(async (req: any, res: any) => {
     // sort by start date in descending order
     const projects = await prisma.projects.findMany({
-      orderBy: {
-        startDate: {
-          month: "desc",
-          year: "desc",
-        },
-      },
+      orderBy: [
+        { startDate: { year: "desc" } },
+        { startDate: { month: "desc" } },
+      ],
     });
 
     return sendResponse({

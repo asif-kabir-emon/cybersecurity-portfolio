@@ -55,3 +55,26 @@ export const ProjectSchema = z.object({
   live_demo: z.string().optional(),
   video_demo: z.string().optional(),
 });
+
+export const ProjectImageSchema = z.object({
+  images: z
+    .any()
+    .refine((files) =>
+      files.every((file: any) => file?.size <= MAX_FILE_SIZE, {
+        message: "Max image size is 5MB.",
+      }),
+    )
+    .refine(
+      (files) =>
+        files.every(
+          (file: any) =>
+            ACCEPTED_IMAGE_TYPES.includes(file?.type) &&
+            file?.size <= MAX_FILE_SIZE,
+        ),
+      {
+        message:
+          "Only .jpg, .jpeg, .png, and .webp formats are supported, and each file must not exceed 5MB.",
+      },
+    )
+    .optional(),
+});

@@ -26,13 +26,13 @@ const SkillsList = () => {
           </div>
         )}
 
-        {!isFetchingData && skills?.data.length === 0 && (
+        {!isFetchingData && skills?.data?.length === 0 && (
           <div className="mb-5">
             <span className="text-slate-400">No Skill Available</span>
           </div>
         )}
 
-        {!isFetchingData && skills?.data.length > 0 && (
+        {!isFetchingData && skills?.data?.length > 0 && (
           <Table className="border-2">
             <TableHeader>
               <TableRow>

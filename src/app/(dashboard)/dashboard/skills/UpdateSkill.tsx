@@ -71,7 +71,7 @@ const UpdateSkill = ({
   return (
     <div>
       <button
-        title="Update Skill"
+        aria-label="Update Skill"
         className="hover:bg-slate-200 p-2 rounded-full"
         onClick={() => setOpen(true)}
       >
