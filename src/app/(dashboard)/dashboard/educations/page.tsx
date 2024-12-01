@@ -5,6 +5,8 @@ import AddEducation from "./AddEducation";
 import { useGetEducationRecordsQuery } from "@/redux/api/educationApi";
 import LoadingTableData from "@/components/Shared/Skeleton/LoadingTableData";
 import { Months } from "@/constants";
+import DeleteEducation from "./DeleteEducation";
+import UpdateEducation from "./UpdateEducation";
 
 const Educations = () => {
   const { data: educational_records, isLoading: isFetchingData } =
@@ -85,9 +87,16 @@ const Educations = () => {
                           </p>
                         )}
                       </div>
-                      <div className="flex gap-3">
-                        {/* <UpdateEducation education_record={education_record} />
-                        <DeleteEducation education_record={education_record} /> */}
+                      <div className="flex gap-1">
+                        <UpdateEducation
+                          educationalRecordId={education_record.id}
+                          educationalRecord={education_record}
+                        />
+                        <DeleteEducation
+                          educationalRecordId={education_record.id}
+                          schoolName={education_record.school}
+                          degreeName={education_record.degree}
+                        />
                       </div>
                     </div>
                   </div>

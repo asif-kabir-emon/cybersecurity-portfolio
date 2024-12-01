@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 export const PATCH = authGuard(
   catchAsync(async (request: any, context: any) => {
-    const educationId = request.params.education;
+    const educationId = context.params.education;
     const { school, degree, fieldOfStudy, startDate, endDate, grade } =
       await request.json();
 
@@ -96,7 +96,7 @@ export const PATCH = authGuard(
 
 export const DELETE = authGuard(
   catchAsync(async (request: any, context: any) => {
-    const educationId = request.params.education;
+    const educationId = context.params.education;
 
     const isEducationExist = await prisma.educations.findFirst({
       where: {

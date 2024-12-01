@@ -22,7 +22,7 @@ export const EducationApi = baseApi.injectEndpoints({
     updateEducationRecord: build.mutation({
       query: ({ id, body }) => ({
         url: `${Route_URL}/${id}`,
-        method: "PUT",
+        method: "PATCH",
         data: body,
       }),
       invalidatesTags: [TagTypes.education],
