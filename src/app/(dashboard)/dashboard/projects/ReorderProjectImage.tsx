@@ -138,6 +138,7 @@ const ReorderProjectImage = ({
         setOpen={handleClose}
         title="Reorder Project Images"
         size="70%"
+        heightAuto={true}
       >
         <div className="flex flex-col h-[90%]">
           {projectImages.length === 0 && (

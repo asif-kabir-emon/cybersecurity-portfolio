@@ -19,7 +19,7 @@ const AddBlog = () => {
 
   const onSubmit = async (data: FieldValues) => {
     console.log(data.image);
-    const uploadedImages = [data.image];
+    const uploadedImages = data.image ? [data.image] : [];
     delete data.image;
 
     const payload = {
@@ -31,25 +31,25 @@ const AddBlog = () => {
     const toastId = toast.loading("Please Wait! Try to add new Blog.", {
       position: "top-center",
     });
-    // try {
-    //   const response = await addBlog(modifiedData).unwrap();
-    //   console.log(response);
+    try {
+      const response = await addBlog(modifiedData).unwrap();
+      console.log(response);
 
-    //   if (response?.success) {
-    //     toast.success(response?.message || "Blog added successfully.", {
-    //       id: toastId,
-    //     });
-    //     setOpen(false);
-    //   } else {
-    //     throw new Error(
-    //       response?.message || "Failed to add blog. Please try again.",
-    //     );
-    //   }
-    // } catch (error: any) {
-    //   toast.error(error?.message || "Failed to add blog. Please try again.", {
-    //     id: toastId,
-    //   });
-    // }
+      if (response?.success) {
+        toast.success(response?.message || "Blog added successfully.", {
+          id: toastId,
+        });
+        setOpen(false);
+      } else {
+        throw new Error(
+          response?.message || "Failed to add blog. Please try again.",
+        );
+      }
+    } catch (error: any) {
+      toast.error(error?.message || "Failed to add blog. Please try again.", {
+        id: toastId,
+      });
+    }
   };
 
   return (
@@ -65,7 +65,8 @@ const AddBlog = () => {
         setOpen={setOpen}
         title="Add Blog"
         description="Blog is a place where you can share your knowledge, experience, and thoughts with the world. You can add a new blog by filling the form below. "
-        size="60%"
+        size="70%"
+        heightAuto={true}
       >
         <div>
           <Form

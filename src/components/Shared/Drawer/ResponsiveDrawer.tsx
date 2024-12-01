@@ -25,6 +25,7 @@ type ResponsiveDrawerProps = {
   description?: string;
   children: React.ReactNode;
   size?: "full" | string;
+  heightAuto?: boolean;
 };
 
 export function ResponsiveDrawer({
@@ -34,6 +35,7 @@ export function ResponsiveDrawer({
   description = "",
   children,
   size = "80%",
+  heightAuto = false,
 }: ResponsiveDrawerProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -43,7 +45,7 @@ export function ResponsiveDrawer({
         <DialogContent
           style={{
             width: size === "full" ? "100%" : size,
-            height: size === "full" ? "100%" : size,
+            height: heightAuto ? "auto" : size === "full" ? "100%" : size,
             maxWidth: size === "full" ? "100vw" : undefined,
             maxHeight: size === "full" ? "100vh" : undefined,
             overflowY: "auto",

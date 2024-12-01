@@ -53,7 +53,7 @@ const Projects = () => {
               <Table className="border-2">
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-36">Project</TableHead>
+                    <TableHead className="md:w-36">Project</TableHead>
                     <TableHead>Title</TableHead>
                     <TableHead>Duration</TableHead>
                     <TableHead>Actions</TableHead>

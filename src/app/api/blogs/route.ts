@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 export const POST = authGuard(
   catchAsync(async (request: any, context: any) => {
     const formData = await request.formData();
-    const files = formData.getAll("file") as File[];
+    const files = formData.getAll("files") as File[];
     const { title, content, tags } = JSON.parse(formData.get("data"));
 
     if (!title || !content) {
@@ -43,7 +43,7 @@ export const POST = authGuard(
         const uploadCloudinary = (await uploadToCloudinary(
           fileUri,
           file.name,
-          "portfolio/projects",
+          "portfolio/blogs",
         )) as {
           success: true;
           result: { secure_url: string; public_id: string };
