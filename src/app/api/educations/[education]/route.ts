@@ -12,7 +12,7 @@ export const PATCH = authGuard(
     const { school, degree, fieldOfStudy, startDate, endDate, grade } =
       await request.json();
 
-    const isEducationExist = await prisma.education.findFirst({
+    const isEducationExist = await prisma.educations.findFirst({
       where: {
         id: educationId,
       },
@@ -46,6 +46,22 @@ export const PATCH = authGuard(
       );
     }
 
+    if (
+      isEducationExist.school !== school &&
+      isEducationExist.degree !== degree
+    ) {
+      const isEducationExist = await prisma.educations.findFirst({
+        where: {
+          school,
+          degree,
+        },
+      });
+
+      if (isEducationExist) {
+        return ApiError(400, "Education record already exists!");
+      }
+    }
+
     const updatedEducationData = {
       school: school || isEducationExist.school,
       degree: degree || isEducationExist.degree,
@@ -61,7 +77,7 @@ export const PATCH = authGuard(
       grade: grade || isEducationExist.grade || "",
     };
 
-    const education = await prisma.education.update({
+    const education = await prisma.educations.update({
       where: {
         id: educationId,
       },
@@ -85,7 +101,7 @@ export const DELETE = authGuard(
   catchAsync(async (request: any, context: any) => {
     const educationId = request.params.education;
 
-    const isEducationExist = await prisma.education.findFirst({
+    const isEducationExist = await prisma.educations.findFirst({
       where: {
         id: educationId,
       },
@@ -95,7 +111,7 @@ export const DELETE = authGuard(
       return ApiError(404, "Data Not Found!");
     }
 
-    const education = await prisma.education.delete({
+    const education = await prisma.educations.delete({
       where: {
         id: educationId,
       },

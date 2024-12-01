@@ -40,6 +40,17 @@ export const POST = authGuard(
       );
     }
 
+    const isEducationExist = await prisma.educations.findFirst({
+      where: {
+        school,
+        degree,
+      },
+    });
+
+    if (isEducationExist) {
+      return ApiError(400, "Education record already exists!");
+    }
+
     const educationData = {
       school,
       degree,
@@ -55,7 +66,7 @@ export const POST = authGuard(
       grade: grade || "",
     };
 
-    const education = await prisma.education.create({
+    const education = await prisma.educations.create({
       data: educationData,
     });
 
@@ -63,7 +74,7 @@ export const POST = authGuard(
       return ApiError(500, "Failed to add education record!");
     }
 
-    sendResponse({
+    return sendResponse({
       status: 201,
       success: true,
       message: "Education record added successfully.",
@@ -74,14 +85,14 @@ export const POST = authGuard(
 
 export const GET = authGuard(
   catchAsync(async (request: any, context: any) => {
-    const educations = await prisma.education.findMany({
+    const educations = await prisma.educations.findMany({
       orderBy: [
         { startDate: { year: "desc" } },
         { startDate: { month: "desc" } },
       ],
     });
 
-    sendResponse({
+    return sendResponse({
       status: 200,
       success: true,
       message: "Educations fetched successfully.",

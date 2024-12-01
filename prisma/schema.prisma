@@ -145,7 +145,7 @@ model blogs {
   @@unique([title])
 }
 
-model education {
+model educations {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   school String
   degree String

@@ -22,7 +22,6 @@ import ReorderProjectImage from "./ReorderProjectImage";
 
 const Projects = () => {
   const { data: projects, isLoading: isFetchingData } = useGetProjectsQuery({});
-  console.log(projects);
 
   return (
     <div>
