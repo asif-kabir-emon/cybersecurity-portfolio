@@ -28,6 +28,7 @@ model profiles {
   projects INFO[] 
   experiences INFO[]
   certifications INFO[]
+  education INFO[]
   blogs INFO[]
   is_active Boolean @default(false)
   createdAt DateTime @default(now())
@@ -110,11 +111,6 @@ model projects {
   @@unique([title])
 }
 
-type Month_Year {
-  month Int
-  year Int
-}
-
 model experiences {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   company_name String
@@ -147,4 +143,21 @@ model blogs {
   image String?
   createdAt DateTime @default(now())
   @@unique([title])
+}
+
+model education {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  school String
+  degree String
+  fieldOfStudy String
+  startDate Month_Year
+  endDate Month_Year
+  grade String?
+  createdAt DateTime @default(now())
+  @@unique([school, degree])
+}
+
+type Month_Year {
+  month Int
+  year Int
 }
