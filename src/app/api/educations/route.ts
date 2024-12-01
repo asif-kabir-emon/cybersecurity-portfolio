@@ -21,22 +21,20 @@ export const POST = authGuard(
       return ApiError(400, "Invalid payload!");
     }
 
-    if (endDate && (!endDate.month || !endDate.year)) {
-      return ApiError(400, "Invalid payload!");
-    }
-
-    if (endDate && startDate.year > endDate.year) {
-      return ApiError(400, "Start date cannot be greater than end date!");
+    if (endDate && endDate.year !== 0 && startDate.year > endDate.year) {
+      return ApiError(400, "Start year cannot be greater than end year!");
     }
 
     if (
       endDate &&
+      endDate.year !== 0 &&
+      endDate.month !== 0 &&
       startDate.year === endDate.year &&
       startDate.month > endDate.month
     ) {
       return ApiError(
         400,
-        "Start date cannot be greater than end date as both start and end year same!",
+        "Start month cannot be greater than end month as both start and end year same!",
       );
     }
 

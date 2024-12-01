@@ -35,7 +35,7 @@ const Educations = () => {
           )}
 
           {!isFetchingData && educational_records?.data?.length > 0 && (
-            <div className="mt-5">
+            <div className="mt-5 space-y-3">
               {educational_records?.data?.map(
                 (education_record: {
                   id: string;
