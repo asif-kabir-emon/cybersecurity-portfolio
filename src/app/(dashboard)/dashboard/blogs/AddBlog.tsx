@@ -18,7 +18,6 @@ const AddBlog = () => {
   const [addBlog, { isLoading: isCreating }] = useAddBlogMutation();
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data.image);
     const uploadedImages = data.image ? [data.image] : [];
     delete data.image;
 

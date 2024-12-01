@@ -20,7 +20,15 @@ export const BlogApi = baseApi.injectEndpoints({
       }),
       providesTags: [TagTypes.blog],
     }),
-
+    updateBlog: build.mutation({
+      query: ({ id, body }) => ({
+        url: `${Route_URL}/${id}`,
+        method: "PATCH",
+        contentType: "multipart/form-data",
+        data: body,
+      }),
+      invalidatesTags: [TagTypes.blog],
+    }),
     deleteBlog: build.mutation({
       query: (id) => ({
         url: `${Route_URL}/${id}`,
@@ -31,5 +39,9 @@ export const BlogApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useAddBlogMutation, useGetBlogsQuery, useDeleteBlogMutation } =
-  BlogApi;
+export const {
+  useAddBlogMutation,
+  useGetBlogsQuery,
+  useUpdateBlogMutation,
+  useDeleteBlogMutation,
+} = BlogApi;

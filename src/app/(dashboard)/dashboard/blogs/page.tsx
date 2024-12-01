@@ -15,6 +15,7 @@ import {
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import DeleteBlog from "./DeleteBlog";
+import UpdateBlog from "./UpdateBlog";
 
 const Blogs = () => {
   const { data: blogs, isLoading: isFetchingData } = useGetBlogsQuery({});
@@ -95,11 +96,7 @@ const Blogs = () => {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1">
-                            {/* <UpdateBlog
-                              blogId={blog.id}
-                              blogTitle={blog.title}
-                              blogData={blog}
-                            /> */}
+                            <UpdateBlog blogId={blog.id} blogData={blog} />
                             <DeleteBlog
                               blogId={blog.id}
                               blogTitle={blog.title}
