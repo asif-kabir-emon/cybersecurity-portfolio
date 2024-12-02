@@ -113,26 +113,26 @@ model projects {
 
 model experiences {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  company_name String
-  position String
-  startDate DateTime
-  endDate DateTime
+  companyName String
+  role String
+  startDate Month_Year
+  endDate Month_Year
   description String
   createdAt DateTime @default(now())
-  @@unique([company_name, position])
+  @@unique([companyName, role])
 }
 
 model certifications {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
+  name String
   description String
-  issuer String
-  issue_date DateTime
-  expiration_date DateTime
-  credential_id String
-  credential_url String
+  issuingOrganization String
+  issueDate Month_Year
+  expirationDate Month_Year
+  credentialId String?
+  credentialUrl String?
   createdAt DateTime @default(now())
-  @@unique([title])
+  @@unique([name])
 }
 
 model blogs {
