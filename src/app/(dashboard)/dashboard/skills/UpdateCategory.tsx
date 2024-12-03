@@ -52,13 +52,14 @@ const UpdateCategory = ({
   };
 
   return (
-    <div>
-      <Button
-        className="w-full rounded-2xl text-sm py-0 bg-white text-green-600 hover:bg-green-700 hover:text-white"
+    <>
+      <button
+        aria-label="Delete Project"
+        className="hover:text-green-300"
         onClick={() => setOpen(true)}
       >
-        <SquarePen /> Update
-      </Button>
+        <SquarePen className="w-4 h-4" />
+      </button>
       <DrawerDialog open={open} setOpen={setOpen} title="Update Category">
         <div>
           <Form
@@ -80,7 +81,7 @@ const UpdateCategory = ({
           </Form>
         </div>
       </DrawerDialog>
-    </div>
+    </>
   );
 };
 

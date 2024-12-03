@@ -22,11 +22,6 @@ import {
 // Menu items.
 const items = [
   {
-    title: "Contacts Info",
-    url: "contacts",
-    icon: Contact,
-  },
-  {
     title: "Skills",
     url: "skills",
     icon: ReceiptText,

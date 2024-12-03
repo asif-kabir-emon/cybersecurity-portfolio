@@ -4,7 +4,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { ChevronDown } from "lucide-react";
 import React from "react";
 import DeleteCategory from "./DeleteCategory";
@@ -38,10 +37,20 @@ const CategoriesList = () => {
         {categories?.data?.map((category: { name: string; id: string }) => (
           <div
             key={category.id}
-            className="flex flex-row justify-center items-center gap-2 bg-gray-700 text-white text-sm rounded-full px-5 py-1"
+            className="group flex flex-row justify-center items-center gap-2 bg-slate-500 text-white text-sm rounded-full px-5 py-1"
           >
-            <span>{category.name}</span>
-            <DropdownMenu>
+            <div className="text-md">{category.name}</div>
+            <div className="hidden gap-2 items-center group-hover:flex">
+              <UpdateCategory
+                categoryId={category.id}
+                categoryName={category.name}
+              />
+              <DeleteCategory
+                categoryId={category.id}
+                categoryName={category.name}
+              />
+            </div>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger className="border-0 p-0 border-white focus:border-0">
                 <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
@@ -55,7 +64,7 @@ const CategoriesList = () => {
                   categoryName={category.name}
                 />
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
           </div>
         ))}
       </div>

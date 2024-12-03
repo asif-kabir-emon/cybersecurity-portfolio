@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
+import { Trash, Trash2 } from "lucide-react";
 import React from "react";
 import { useDeleteCategoryMutation } from "@/redux/api/skillApi";
 import { toast } from "sonner";
@@ -45,13 +45,14 @@ const DeleteCategory = ({
   };
 
   return (
-    <div>
-      <Button
-        className="rounded-2xl text-sm py-0 bg-white text-red-500 hover:bg-red-500 hover:text-white"
+    <>
+      <button
+        aria-label="Delete Project"
+        className="hover:text-red-300 "
         onClick={() => setOpen(true)}
       >
-        <Trash /> Delete
-      </Button>
+        <Trash2 className="w-4 h-4" />
+      </button>
       <DrawerDelete
         open={open}
         setOpen={setOpen}
@@ -60,7 +61,7 @@ const DeleteCategory = ({
         isDisabled={isDeleting}
         description={`Are you sure you want to delete "${categoryName}" category?`}
       ></DrawerDelete>
-    </div>
+    </>
   );
 };
 
