@@ -4,6 +4,8 @@ const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig = {
   basePath: isProd ? "/cybersecurity-portfolio" : "",
+  output: "export",
+  distDir: "dist",
   images: {
     remotePatterns: [
       {
@@ -11,8 +13,6 @@ const nextConfig = {
         hostname: "**",
       },
     ],
-    output: "export",
-    distDir: "dist",
   },
 };
 
