@@ -16,8 +16,8 @@ export const POST = authGuard(
 
     const profile = await prisma.profiles.create({
       data: {
-        name,
-        title,
+        name: name,
+        title: title,
         bio: bio || "",
       },
     });

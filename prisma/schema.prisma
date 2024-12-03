@@ -21,7 +21,7 @@ model profiles {
   image String?
   title String 
   bio String?
-  contactInfo Contact_Info
+  contactInfo Contact_Info?
   skills SKILLS_INFO[]
   projects INFO[] 
   experiences INFO[]
