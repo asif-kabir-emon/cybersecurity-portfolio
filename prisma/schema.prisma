@@ -21,9 +21,7 @@ model profiles {
   image String?
   title String 
   bio String?
-  email String?
-  phone String?
-  social_media INFO[]
+  contactInfo Contact_Info
   skills SKILLS_INFO[]
   projects INFO[] 
   experiences INFO[]
@@ -33,6 +31,20 @@ model profiles {
   is_active Boolean @default(false)
   createdAt DateTime @default(now())
   @@unique([name, title])
+}
+
+type Contact_Info {
+  email String?
+  phone String?
+  address String?
+  github String?
+  linkedin String?
+  whatsapp String?
+  telegram String?
+  twitter String?
+  facebook String?
+  instagram String?
+  youtube String?
 }
 
 type INFO {
