@@ -12,7 +12,7 @@ import {
 
 interface AppHeaderProps {
   showLastPath?: boolean;
-  pageName: string;
+  pageName?: string;
 }
 
 const AppHeader: React.FC<AppHeaderProps> = ({

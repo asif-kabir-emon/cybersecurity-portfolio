@@ -1,5 +1,5 @@
 "use client";
-import { AppSidebar } from "@/components/Dashboard/app-bar";
+import { AppSidebar } from "@/components/Dashboard/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
