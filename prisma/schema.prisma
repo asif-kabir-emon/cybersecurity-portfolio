@@ -125,7 +125,7 @@ model experiences {
 model certifications {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
-  description String
+  description String?
   issuingOrganization String
   issueDate Month_Year
   expirationDate Month_Year

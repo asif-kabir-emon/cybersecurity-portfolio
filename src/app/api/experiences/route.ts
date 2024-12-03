@@ -87,6 +87,7 @@ export const GET = authGuard(
       status: 200,
       success: true,
       message: "Experiences fetched successfully.",
+      meta: { total: experiences.length },
       data: experiences,
     });
   }),
