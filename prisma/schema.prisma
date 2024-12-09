@@ -17,6 +17,7 @@ model user {
 
 model profiles {
   id String @id @default(auto()) @map("_id") @db.ObjectId
+  profileId String @unique
   name String
   image String?
   title String 

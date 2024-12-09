@@ -22,29 +22,29 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { ProfileSwitcher } from "./profile-switcher";
+import ProfileSideMenu from "./profile-side-menu";
 
 const data = [
   {
     title: "Dashboard",
-    url: "dashboard",
+    url: "",
     items: [
       {
         title: "Dashboard",
-        url: "",
+        url: "dashboard",
         icon: LayoutDashboard,
+      },
+      {
+        title: "Create Profile",
+        url: "profiles/add-profile",
+        icon: Contact,
       },
     ],
   },
   {
     title: "Profile",
-    url: "dashboard",
-    items: [
-      {
-        title: "Profile",
-        url: "",
-        icon: Contact,
-      },
-    ],
+    url: "profiles",
+    items: [],
   },
   {
     title: "Category",
@@ -92,26 +92,57 @@ export function AppSidebar() {
           versions={["1.0.1", "1.1.0-alpha", "2.0.0-beta1"]}
           defaultVersion={["1.0.1", "1.1.0-alpha", "2.0.0-beta1"][0]}
         />
-        {/* <SearchForm /> */}
       </SidebarHeader>
       <SidebarContent>
         {data.map((group) => (
           <SidebarGroup key={group.title}>
             <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {group.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <a href={`/${group.url}/${item.url}`}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
+            {group.title !== "Profile" && (
+              <>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {group.items.map((item) => (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton asChild>
+                          <a
+                            href={`${group.url ? `/${group.url}` : ""}/${
+                              item.url
+                            }`}
+                          >
+                            <item.icon />
+                            <span>{item.title}</span>
+                          </a>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </>
+            )}
+
+            {group.title === "Profile" && (
+              <>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {group.items.map((item) => (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton asChild>
+                          <a
+                            href={`${group.url ? `/${group.url}` : ""}/${
+                              item.url
+                            }`}
+                          >
+                            <item.icon />
+                            <span>{item.title}</span>
+                          </a>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                    <ProfileSideMenu />
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </>
+            )}
           </SidebarGroup>
         ))}
       </SidebarContent>

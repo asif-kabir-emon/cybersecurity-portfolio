@@ -13,11 +13,15 @@ import {
 interface AppHeaderProps {
   showLastPath?: boolean;
   pageName?: string;
+  baseRouteName?: string;
+  baseRoutePath?: string;
 }
 
 const AppHeader: React.FC<AppHeaderProps> = ({
   showLastPath = true,
   pageName = "",
+  baseRouteName = "",
+  baseRoutePath = "",
 }) => {
   return (
     <div>
@@ -27,7 +31,11 @@ const AppHeader: React.FC<AppHeaderProps> = ({
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+              <BreadcrumbLink
+                href={baseRoutePath ? baseRoutePath : "/dashboard"}
+              >
+                {baseRouteName ? baseRouteName : "Dashboard"}
+              </BreadcrumbLink>
             </BreadcrumbItem>
             {showLastPath && (
               <>

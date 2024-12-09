@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 export const POST = authGuard(
   catchAsync(async (request: Request) => {
     const { name, title, bio } = await request.json();
+    console.log(name, title, bio);
 
     if (!name || !title) {
       return ApiError(400, "Invalid payload!");
@@ -16,6 +17,7 @@ export const POST = authGuard(
 
     const profile = await prisma.profiles.create({
       data: {
+        profileId: title.toLowerCase().replace(" ", "-"),
         name: name,
         title: title,
         bio: bio || "",
