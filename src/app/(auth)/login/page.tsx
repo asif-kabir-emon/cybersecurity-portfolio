@@ -2,15 +2,18 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { authKey } from "@/constants";
+import { addProfiles } from "@/redux/feature/profile/profileSlicer";
 import { Label } from "@radix-ui/react-label";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 
 const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,6 +41,7 @@ const Login = () => {
         throw new Error(res?.message);
       }
       // const cookieExpiresIn = new Date(new Date().getTime() + 120 * 60 * 1000);
+      dispatch(addProfiles(res.data.profiles));
 
       Cookies.set(authKey, res.data.accessToken, {
         path: "/",

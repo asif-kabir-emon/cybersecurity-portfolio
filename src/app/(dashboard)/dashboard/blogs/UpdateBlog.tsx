@@ -92,7 +92,7 @@ const UpdateBlog = ({
               title: blogData.title,
               content: blogData.content,
               tags: blogData.tags || [],
-              image: blogData.image || null,
+              image: null,
             }}
           >
             <div className="flex flex-col gap-4">

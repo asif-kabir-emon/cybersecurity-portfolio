@@ -5,16 +5,19 @@ import InputBox from "@/components/Form/InputBox";
 import TextAreaBox from "@/components/Form/TextAreaBox";
 import { Button } from "@/components/ui/button";
 import { useAddProfileMutation } from "@/redux/api/profileApi";
+import { addNewProfile } from "@/redux/feature/profile/profileSlicer";
 import { CreateProfileSchema } from "@/schema/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { FieldValues } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 
 const CreateProfilePage = () => {
   const router = useRouter();
   const [addProfile, { isLoading: isCreating }] = useAddProfileMutation();
+  const dispatch = useDispatch();
 
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Please Wait! Try to create new profile.", {
@@ -27,6 +30,13 @@ const CreateProfilePage = () => {
         toast.success(response?.message || "Profile created successfully.", {
           id: toastId,
         });
+
+        dispatch(
+          addNewProfile({
+            profileId: response?.data?.profileId,
+            title: response?.data?.title,
+          }),
+        );
 
         router.push(`/profiles/${response?.data?.profileId}`);
       } else {
@@ -64,7 +74,7 @@ const CreateProfilePage = () => {
           <div className="flex flex-col gap-4">
             <InputBox
               name="name"
-              label="Profile Name"
+              label="Name"
               placeholder="Enter name"
               required={true}
             />

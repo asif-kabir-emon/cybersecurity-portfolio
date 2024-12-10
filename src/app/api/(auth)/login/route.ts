@@ -42,12 +42,20 @@ export const POST = catchAsync(async (request: Request) => {
     return ApiError(500, "Internal Server Error!");
   }
 
+  const getProfiles = await prisma.profiles.findMany({
+    select: {
+      profileId: true,
+      title: true,
+    },
+  });
+
   return sendResponse({
     status: 200,
     message: "Successfully logged in.",
     success: true,
     data: {
       accessToken: token,
+      profiles: getProfiles,
     },
   });
 });

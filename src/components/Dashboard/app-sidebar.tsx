@@ -4,7 +4,9 @@ import {
   Contact,
   FileBadge,
   LayoutDashboard,
+  LogOutIcon,
   NotebookPen,
+  NotebookText,
   Presentation,
   ReceiptText,
 } from "lucide-react";
@@ -21,8 +23,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { ProfileSwitcher } from "./profile-switcher";
-import ProfileSideMenu from "./profile-side-menu";
+import { Button } from "../ui/button";
+import Cookies from "js-cookie";
+import { authKey } from "@/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { removeProfiles } from "@/redux/feature/profile/profileSlicer";
+import type { RootState } from "@/redux/store";
 
 const data = [
   {
@@ -42,7 +48,7 @@ const data = [
     ],
   },
   {
-    title: "Profile",
+    title: "Profiles",
     url: "profiles",
     items: [],
   },
@@ -85,71 +91,69 @@ const data = [
 ];
 
 export function AppSidebar() {
+  const profiles = useSelector((state: RootState) => state.profile.profiles);
+  const dispatch = useDispatch();
+
   return (
     <Sidebar>
       <SidebarHeader>
-        <ProfileSwitcher
-          versions={["1.0.1", "1.1.0-alpha", "2.0.0-beta1"]}
-          defaultVersion={["1.0.1", "1.1.0-alpha", "2.0.0-beta1"][0]}
-        />
+        <h1 className="text-xl ml-2">
+          <span className="font-bold">Portfolio</span> Builder
+        </h1>
       </SidebarHeader>
       <SidebarContent>
         {data.map((group) => (
           <SidebarGroup key={group.title}>
             <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
-            {group.title !== "Profile" && (
-              <>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {group.items.map((item) => (
-                      <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild>
-                          <a
-                            href={`${group.url ? `/${group.url}` : ""}/${
-                              item.url
-                            }`}
-                          >
-                            <item.icon />
-                            <span>{item.title}</span>
-                          </a>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </>
-            )}
-
-            {group.title === "Profile" && (
-              <>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {group.items.map((item) => (
-                      <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild>
-                          <a
-                            href={`${group.url ? `/${group.url}` : ""}/${
-                              item.url
-                            }`}
-                          >
-                            <item.icon />
-                            <span>{item.title}</span>
-                          </a>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                    <ProfileSideMenu />
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </>
-            )}
+            <>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {group.items.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <a
+                          href={`${group.url ? `/${group.url}` : ""}/${
+                            item.url
+                          }`}
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                  {group.title === "Profiles" && (
+                    <>
+                      {profiles?.map(({ profileId, title }) => (
+                        <SidebarMenuItem key={profileId}>
+                          <SidebarMenuButton asChild>
+                            <a href={`/profiles/${profileId}`}>
+                              <NotebookText />
+                              <span>{title}</span>
+                            </a>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                    </>
+                  )}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </>
           </SidebarGroup>
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <p className="text-center text-xs text-gray-500">
-          &copy; 2021 All rights reserved.
-        </p>
+        <Button
+          className="w-full mt-5"
+          onClick={() => {
+            Cookies.remove(authKey);
+            window.location.href = "/login";
+            dispatch(removeProfiles());
+          }}
+        >
+          <LogOutIcon />
+          Logout
+        </Button>
       </SidebarFooter>
     </Sidebar>
   );
