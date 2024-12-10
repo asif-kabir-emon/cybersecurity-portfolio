@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 export const PATCH = authGuard(
   catchAsync(async (request: any, context: any) => {
-    const certificationId = context.params.certification;
+    const certificationId = context.params.certification[0];
     const {
       name,
       description,
@@ -116,7 +116,7 @@ export const PATCH = authGuard(
 
 export const DELETE = authGuard(
   catchAsync(async (request: any, context: any) => {
-    const certificationId = context.params.certification;
+    const certificationId = context.params.certification[0];
 
     const isCertificationExist = await prisma.certifications.findUnique({
       where: {

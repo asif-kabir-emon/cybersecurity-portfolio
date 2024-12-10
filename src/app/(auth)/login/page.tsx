@@ -37,13 +37,13 @@ const Login = () => {
       if (!response.ok) {
         throw new Error(res?.message);
       }
-      const cookieExpiresIn = new Date(new Date().getTime() + 120 * 60 * 1000);
+      // const cookieExpiresIn = new Date(new Date().getTime() + 120 * 60 * 1000);
 
       Cookies.set(authKey, res.data.accessToken, {
         path: "/",
         secure: true,
         sameSite: "strict",
-        expires: cookieExpiresIn,
+        expires: 30,
       });
 
       toast.success("Logged In Successfully", { id: toastId, duration: 2000 });
