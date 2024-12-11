@@ -10,9 +10,10 @@ import React from "react";
 import { toast } from "sonner";
 import FileUploader from "@/components/Shared/FileUploader/FileUploader";
 import Image from "next/image";
-import { Pen, SquarePen } from "lucide-react";
+import { Pen, Plus, SquarePen } from "lucide-react";
 import UpdateProfileInfo from "./UpdateInfo";
 import ContactInfo from "./ContactInfo";
+import AddSkills from "./skills/AddSkills";
 
 type ProfileProps = {
   params: {
@@ -78,7 +79,7 @@ const ProfilePage = ({ params }: ProfileProps) => {
         baseRoutePath="/profiles"
       />
       {profile && profile?.data && (
-        <div className="m-5">
+        <div className="m-5 space-y-3">
           <div className="text-center">
             {profile?.data?.image && profile?.data?.image !== "" ? (
               <Image
@@ -128,6 +129,23 @@ const ProfilePage = ({ params }: ProfileProps) => {
                   contactInfo: profile.data?.contactInfo || {},
                 }}
               />
+            </div>
+          </div>
+          <div className="mt-7 space-y-1 p-6 border-[1px] border-gray-300 rounded-[5px]">
+            <div className="flex justify-between items-center gap-2 p-2">
+              <h2 className="text-2xl font-semibold">Skills</h2>
+              <div className="flex gap-5">
+                <AddSkills
+                  profileId={profileId}
+                  profileData={{ skills: profile.data.skills || [] }}
+                />
+                <a
+                  href=""
+                  className="text-black hover:bg-slate-200 p-2 rounded-full cursor-pointer"
+                >
+                  <SquarePen size={22} />
+                </a>
+              </div>
             </div>
           </div>
         </div>

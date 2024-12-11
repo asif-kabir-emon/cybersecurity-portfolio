@@ -58,6 +58,14 @@ export const ProfileApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TagTypes.profile],
     }),
+    // Profile Projects
+    getProfileProjects: build.query({
+      query: (id: string) => ({
+        url: `${Route_URL}/${id}/projects`,
+        method: "GET",
+      }),
+      providesTags: [TagTypes.profile],
+    }),
   }),
 });
 
@@ -69,4 +77,5 @@ export const {
   useDeleteProfileMutation,
   useUpdateProfileImageMutation,
   useDeleteProfileImageMutation,
+  useGetProfileProjectsQuery,
 } = ProfileApi;

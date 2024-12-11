@@ -21,6 +21,37 @@ export const POST = authGuard(
         name: name,
         title: title,
         bio: bio || "",
+        contactInfo: {
+          email: "",
+          phone: "",
+          address: "",
+          github: "",
+          linkedin: "",
+          whatsapp: "",
+          telegram: "",
+          twitter: "",
+          youtube: "",
+        },
+        projects: {
+          is_active: true,
+          ids: [],
+        },
+        experiences: {
+          is_active: true,
+          ids: [],
+        },
+        certifications: {
+          is_active: true,
+          ids: [],
+        },
+        education: {
+          is_active: true,
+          ids: [],
+        },
+        blogs: {
+          is_active: true,
+          ids: [],
+        },
       },
     });
 

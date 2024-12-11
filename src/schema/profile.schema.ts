@@ -119,4 +119,29 @@ export const ProfileSchema = z.object({
         .optional(),
     })
     .optional(),
+  projects: z
+    .object({
+      ids: z.array(z.string()).optional(),
+    })
+    .optional(),
+  experiences: z
+    .object({
+      ids: z.array(z.string()).optional(),
+    })
+    .optional(),
+  certifications: z
+    .object({
+      ids: z.array(z.string()).optional(),
+    })
+    .optional(),
+  education: z
+    .object({
+      ids: z.array(z.string()).optional(),
+    })
+    .optional(),
+  blogs: z
+    .object({
+      ids: z.array(z.string()).optional(),
+    })
+    .optional(),
 });

@@ -1,7 +1,6 @@
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Label } from "../ui/label";
-import { Checkbox } from "@radix-ui/react-checkbox";
 
 type CheckBoxProps = {
   name: string;
@@ -14,7 +13,6 @@ type CheckBoxProps = {
 
 const CheckBox = ({
   name,
-  type = "text",
   label,
   placeholder,
   required = false,

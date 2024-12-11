@@ -24,13 +24,14 @@ model profiles {
   bio String?
   contactInfo Contact_Info?
   skills SKILLS_INFO[]
-  projects INFO[] 
-  experiences INFO[]
-  certifications INFO[]
-  education INFO[]
-  blogs INFO[]
+  projects INFO
+  experiences INFO
+  certifications INFO
+  education INFO
+  blogs INFO
   isActive Boolean @default(false)
   createdAt DateTime @default(now())
+  
   @@unique([name, title])
 }
 

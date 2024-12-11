@@ -4,8 +4,14 @@ import Form from "@/components/Form/Form";
 import InputBox from "@/components/Form/InputBox";
 import TextAreaBox from "@/components/Form/TextAreaBox";
 import { Button } from "@/components/ui/button";
-import { useAddProfileMutation } from "@/redux/api/profileApi";
-import { addNewProfile } from "@/redux/feature/profile/profileSlicer";
+import {
+  useAddProfileMutation,
+  useGetProfilesQuery,
+} from "@/redux/api/profileApi";
+import {
+  addNewProfile,
+  addProfiles,
+} from "@/redux/feature/profile/profileSlicer";
 import { ProfileSchema } from "@/schema/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -17,6 +23,7 @@ import { toast } from "sonner";
 const CreateProfilePage = () => {
   const router = useRouter();
   const [addProfile, { isLoading: isCreating }] = useAddProfileMutation();
+  const { data: profiles, isLoading: isFetchingData } = useGetProfilesQuery({});
   const dispatch = useDispatch();
 
   const onSubmit = async (data: FieldValues) => {
@@ -30,6 +37,22 @@ const CreateProfilePage = () => {
         toast.success(response?.message || "Profile created successfully.", {
           id: toastId,
         });
+
+        // wait until isFetchingData is false
+        while (isFetchingData) {
+          continue;
+        }
+
+        dispatch(
+          addProfiles([
+            ...profiles?.data?.map(
+              (profile: { profileId: string; title: string }) => ({
+                profileId: profile.profileId,
+                title: profile.title,
+              }),
+            ),
+          ]),
+        );
 
         dispatch(
           addNewProfile({
