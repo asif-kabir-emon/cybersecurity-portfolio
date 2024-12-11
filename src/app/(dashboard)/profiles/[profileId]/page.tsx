@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import FileUploader from "@/components/Shared/FileUploader/FileUploader";
 import Image from "next/image";
 import { Pen, SquarePen } from "lucide-react";
+import UpdateProfileInfo from "./UpdateProfileInfo";
 
 type ProfileProps = {
   params: {
@@ -102,7 +103,14 @@ const ProfilePage = ({ params }: ProfileProps) => {
               <h2 className="text-2xl font-semibold">{profile.data.name}</h2>
               <h3 className="text-xl">{profile.data.title}</h3>
             </div>
-            <SquarePen size={22} />
+            <UpdateProfileInfo
+              profileId={profileId}
+              profileData={{
+                name: profile.data.name,
+                title: profile.data.title,
+                bio: profile.data.bio,
+              }}
+            />
           </div>
           <p>{profile.data.bio}</p>
         </div>

@@ -30,7 +30,6 @@ export const ProfileApi = baseApi.injectEndpoints({
       query: ({ id, body }) => ({
         url: `${Route_URL}/${id}`,
         method: "PATCH",
-        contentType: "multipart/form-data",
         data: body,
       }),
       invalidatesTags: [TagTypes.profile],

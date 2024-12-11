@@ -6,7 +6,7 @@ import TextAreaBox from "@/components/Form/TextAreaBox";
 import { Button } from "@/components/ui/button";
 import { useAddProfileMutation } from "@/redux/api/profileApi";
 import { addNewProfile } from "@/redux/feature/profile/profileSlicer";
-import { CreateProfileSchema } from "@/schema/profile.schema";
+import { ProfileSchema } from "@/schema/profile.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -64,7 +64,7 @@ const CreateProfilePage = () => {
       <div className="m-5 border-[1px] border-slate-400 rounded-[5px] p-5">
         <Form
           onSubmit={onSubmit}
-          resolver={zodResolver(CreateProfileSchema)}
+          resolver={zodResolver(ProfileSchema)}
           defaultValues={{
             name: "",
             title: "",

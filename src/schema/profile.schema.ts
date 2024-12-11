@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CreateProfileSchema = z.object({
+export const ProfileSchema = z.object({
   name: z
     .string({
       message: "Name is required.",
