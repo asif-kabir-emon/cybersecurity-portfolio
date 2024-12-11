@@ -11,7 +11,8 @@ import { toast } from "sonner";
 import FileUploader from "@/components/Shared/FileUploader/FileUploader";
 import Image from "next/image";
 import { Pen, SquarePen } from "lucide-react";
-import UpdateProfileInfo from "./UpdateProfileInfo";
+import UpdateProfileInfo from "./UpdateInfo";
+import ContactInfo from "./ContactInfo";
 
 type ProfileProps = {
   params: {
@@ -76,45 +77,61 @@ const ProfilePage = ({ params }: ProfileProps) => {
         baseRouteName="Profile"
         baseRoutePath="/profiles"
       />
-      <div className="m-5">
-        <div className="text-center">
-          {profile && profile?.data?.image && profile?.data?.image !== "" ? (
-            <Image
-              src={profile?.data?.image}
-              width={250}
-              height={250}
-              className="rounded-full mx-auto border-[5px] border-gray-50 shadow-sm"
-              alt="Profile Image"
-            />
-          ) : (
-            <div className="bg-gray-300 w-48 h-48 mx-auto rounded-full" />
-          )}
-          <div className="mt-5">
-            <FileUploader
-              onSubmit={updateImage}
-              buttonText="Update Image"
-              fileType="image/*"
-            />
-          </div>
-        </div>
-        <div className="mt-7 space-y-1 p-6 border-[1px] border-gray-300 rounded-[5px]">
-          <div className="flex justify-between gap-2">
-            <div>
-              <h2 className="text-2xl font-semibold">{profile.data.name}</h2>
-              <h3 className="text-xl">{profile.data.title}</h3>
+      {profile && profile?.data && (
+        <div className="m-5">
+          <div className="text-center">
+            {profile?.data?.image && profile?.data?.image !== "" ? (
+              <Image
+                src={profile?.data?.image}
+                width={250}
+                height={250}
+                className="rounded-full mx-auto border-[5px] border-gray-50 shadow-sm"
+                alt="Profile Image"
+              />
+            ) : (
+              <div className="bg-gray-300 w-48 h-48 mx-auto rounded-full" />
+            )}
+            <div className="mt-5">
+              <FileUploader
+                onSubmit={updateImage}
+                buttonText="Update Image"
+                fileType="image/*"
+              />
             </div>
-            <UpdateProfileInfo
-              profileId={profileId}
-              profileData={{
-                name: profile.data.name,
-                title: profile.data.title,
-                bio: profile.data.bio,
-              }}
-            />
           </div>
-          <p>{profile.data.bio}</p>
+          <div className="mt-7 space-y-1 p-6 border-[1px] border-gray-300 rounded-[5px]">
+            <div className="flex justify-between gap-2">
+              <div>
+                <h2 className="text-2xl font-semibold">
+                  {profile?.data?.name}
+                </h2>
+                <h3 className="text-xl">{profile?.data?.title}</h3>
+              </div>
+              <UpdateProfileInfo
+                profileId={profileId}
+                profileData={{
+                  name: profile.data.name,
+                  title: profile.data.title,
+                  bio: profile.data.bio,
+                  contactInfo: profile.data?.contactInfo || {},
+                }}
+              />
+            </div>
+            <p>{profile.data.bio}</p>
+            <div>
+              <ContactInfo
+                profileId={profileId}
+                profileData={{
+                  name: profile.data.name,
+                  title: profile.data.title,
+                  bio: profile.data.bio,
+                  contactInfo: profile.data?.contactInfo || {},
+                }}
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -43,8 +43,6 @@ type Contact_Info {
   whatsapp String?
   telegram String?
   twitter String?
-  facebook String?
-  instagram String?
   youtube String?
 }
 
