@@ -16,7 +16,7 @@ export const GET = authGuard(
 
     const profile = await prisma.profiles.findUnique({
       where: {
-        id: profileId,
+        profileId: profileId,
       },
     });
 
@@ -44,7 +44,7 @@ export const DELETE = authGuard(
 
     const profile = await prisma.profiles.delete({
       where: {
-        id: profileId,
+        profileId: profileId,
       },
     });
 

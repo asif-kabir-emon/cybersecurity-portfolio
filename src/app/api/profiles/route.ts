@@ -35,7 +35,9 @@ export const POST = authGuard(
 
 export const GET = authGuard(
   catchAsync(async (request: Request) => {
-    const profiles = await prisma.profiles.findMany();
+    const profiles = await prisma.profiles.findMany({
+      orderBy: [{ isActive: "asc" }, { profileId: "asc" }],
+    });
 
     return sendResponse({
       status: 200,

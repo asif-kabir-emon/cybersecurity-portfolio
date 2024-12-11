@@ -19,6 +19,13 @@ export const ProfileApi = baseApi.injectEndpoints({
       }),
       providesTags: [TagTypes.profile],
     }),
+    getProfile: build.query({
+      query: (id: string) => ({
+        url: `${Route_URL}/${id}`,
+        method: "GET",
+      }),
+      providesTags: [TagTypes.profile],
+    }),
     updateProfile: build.mutation({
       query: ({ id, body }) => ({
         url: `${Route_URL}/${id}`,
@@ -35,12 +42,32 @@ export const ProfileApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TagTypes.profile],
     }),
+    // Profile Image
+    updateProfileImage: build.mutation({
+      query: ({ id, body }) => ({
+        url: `${Route_URL}/${id}/image`,
+        method: "POST",
+        contentType: "multipart/form-data",
+        data: body,
+      }),
+      invalidatesTags: [TagTypes.profile],
+    }),
+    deleteProfileImage: build.mutation({
+      query: (id) => ({
+        url: `${Route_URL}/${id}/image`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [TagTypes.profile],
+    }),
   }),
 });
 
 export const {
   useAddProfileMutation,
   useGetProfilesQuery,
+  useGetProfileQuery,
   useUpdateProfileMutation,
   useDeleteProfileMutation,
+  useUpdateProfileImageMutation,
+  useDeleteProfileImageMutation,
 } = ProfileApi;

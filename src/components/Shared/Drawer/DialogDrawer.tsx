@@ -21,7 +21,7 @@ import {
 type DrawerDialogProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
-  title: string;
+  title?: string;
   description?: string;
   children: React.ReactNode;
 };
@@ -29,7 +29,7 @@ type DrawerDialogProps = {
 export function DrawerDialog({
   open,
   setOpen,
-  title,
+  title = "",
   description = "",
   children,
 }: DrawerDialogProps) {
