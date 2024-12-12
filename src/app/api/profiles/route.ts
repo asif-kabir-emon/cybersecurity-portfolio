@@ -6,10 +6,22 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+interface AuthenticatedRequest extends Request {
+  user: {
+    id: string;
+    email: string;
+  };
+}
+
 export const POST = authGuard(
-  catchAsync(async (request: Request) => {
+  catchAsync(async (request: Request, context: any) => {
+    const authenticatedRequest = request as AuthenticatedRequest;
+    const { id } = authenticatedRequest.user;
     const { name, title, bio } = await request.json();
-    console.log(name, title, bio);
+
+    if (!id) {
+      return ApiError(400, "Unauthorized: Invalid user.");
+    }
 
     if (!name || !title) {
       return ApiError(400, "Invalid payload!");
@@ -17,10 +29,11 @@ export const POST = authGuard(
 
     const profile = await prisma.profiles.create({
       data: {
-        profileId: title.toLowerCase().replace(" ", "-"),
+        userId: id,
         name: name,
         title: title,
         bio: bio || "",
+        resume: "",
         contactInfo: {
           email: "",
           phone: "",
@@ -31,26 +44,6 @@ export const POST = authGuard(
           telegram: "",
           twitter: "",
           youtube: "",
-        },
-        projects: {
-          is_active: true,
-          ids: [],
-        },
-        experiences: {
-          is_active: true,
-          ids: [],
-        },
-        certifications: {
-          is_active: true,
-          ids: [],
-        },
-        education: {
-          is_active: true,
-          ids: [],
-        },
-        blogs: {
-          is_active: true,
-          ids: [],
         },
       },
     });
@@ -66,18 +59,66 @@ export const POST = authGuard(
 
 export const GET = authGuard(
   catchAsync(async (request: Request) => {
-    const profiles = await prisma.profiles.findMany({
-      orderBy: [{ isActive: "asc" }, { profileId: "asc" }],
+    const authenticatedRequest = request as AuthenticatedRequest;
+    const { id } = authenticatedRequest.user;
+
+    if (!id) {
+      return ApiError(400, "Unauthorized: Invalid user.");
+    }
+
+    const profile = await prisma.profiles.findUnique({
+      where: {
+        userId: id,
+      },
     });
 
     return sendResponse({
       status: 200,
       message: "Profiles fetched successfully.",
       success: true,
-      meta: {
-        total: profiles.length,
+      data: profile,
+    });
+  }),
+);
+
+export const PATCH = authGuard(
+  catchAsync(async (request: Request, context: any) => {
+    const authenticatedRequest = request as AuthenticatedRequest;
+    const { id } = authenticatedRequest.user;
+    const data = await request.json();
+
+    if (!id) {
+      return ApiError(400, "Unauthorized: Invalid user.");
+    }
+
+    const isProfileExist = await prisma.profiles.findUnique({
+      where: {
+        userId: id,
       },
-      data: profiles,
+    });
+
+    if (!isProfileExist) {
+      return ApiError(404, "Profile not found!");
+    }
+
+    const updatedProfile = await prisma.profiles.update({
+      where: {
+        userId: id,
+      },
+      data: {
+        ...data,
+      },
+    });
+
+    if (!updatedProfile) {
+      return ApiError(400, "Failed to update profile!");
+    }
+
+    return sendResponse({
+      status: 200,
+      message: "Profile updated successfully.",
+      success: true,
+      data: updatedProfile,
     });
   }),
 );

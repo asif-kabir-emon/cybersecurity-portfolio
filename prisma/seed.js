@@ -5,6 +5,8 @@ const prisma = new PrismaClient();
 
 const user_email = String(process.env.user_email) || "";
 const user_password = String(process.env.user_password) || "";
+const user_name = String(process.env.user_name) || "Test User";
+const user_title = String(process.env.user_title) || "Test Title";
 const salt_rounds = Number(process.env.SALT_ROUNDS);
 
 async function main() {
@@ -19,12 +21,38 @@ async function main() {
   });
 
   if (!existingUser) {
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: default_user,
     });
-    console.log("Default user created");
-  } else {
-    console.log("Default user already exists");
+    const profile = await prisma.profiles.create({
+      data: {
+        userId: user.id,
+        name: user_name,
+        title: user_title,
+        bio: "",
+      },
+    });
+
+    console.log("Default user created successfully");
+  }
+
+  if (existingUser) {
+    const existingProfile = await prisma.profiles.findUnique({
+      where: { userId: existingUser.id },
+    });
+
+    if (!existingProfile) {
+      const profile = await prisma.profiles.create({
+        data: {
+          userId: existingUser.id,
+          name: user_name,
+          title: user_title,
+          bio: "",
+        },
+      });
+
+      console.log("Default profile created successfully");
+    }
   }
 }
 

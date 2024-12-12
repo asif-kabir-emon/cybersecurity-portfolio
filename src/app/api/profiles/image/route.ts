@@ -10,9 +10,17 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+interface AuthenticatedRequest extends Request {
+  user: {
+    id: string;
+    email: string;
+  };
+}
+
 export const POST = authGuard(
   catchAsync(async (request: Request, context: any) => {
-    const profileId = context.params.profile;
+    const authenticatedRequest = request as AuthenticatedRequest;
+    const { id } = authenticatedRequest.user;
     const formData = await request.formData();
     const file = formData.get("file") as File;
 
@@ -20,9 +28,13 @@ export const POST = authGuard(
       return ApiError(400, "Invalid Payload!");
     }
 
+    if (!id) {
+      return ApiError(400, "Unauthorized: Invalid user.");
+    }
+
     const isProfileExist = await prisma.profiles.findUnique({
       where: {
-        profileId: profileId,
+        userId: id,
       },
     });
 
@@ -41,7 +53,7 @@ export const POST = authGuard(
 
       const uploadCloudinary = (await uploadToCloudinary(
         fileUri,
-        `${isProfileExist.profileId}_${isProfileExist.id}`,
+        `${isProfileExist.userId}_${isProfileExist.id}`,
         "portfolio/profiles",
       )) as {
         success: true;
@@ -78,10 +90,16 @@ export const POST = authGuard(
 
 export const DELETE = authGuard(
   catchAsync(async (request: Request, context: any) => {
-    const profileId = context.params.profile;
+    const authenticatedRequest = request as AuthenticatedRequest;
+    const { id } = authenticatedRequest.user;
+
+    if (!id) {
+      return ApiError(400, "Unauthorized: Invalid user.");
+    }
+
     const isProfileExist = await prisma.profiles.findUnique({
       where: {
-        profileId: profileId,
+        userId: id,
       },
     });
 

@@ -12,70 +12,53 @@ export const ProfileApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TagTypes.profile],
     }),
-    getProfiles: build.query({
+    getProfile: build.query({
       query: () => ({
         url: `${Route_URL}`,
         method: "GET",
       }),
       providesTags: [TagTypes.profile],
     }),
-    getProfile: build.query({
-      query: (id: string) => ({
-        url: `${Route_URL}/${id}`,
-        method: "GET",
-      }),
-      providesTags: [TagTypes.profile],
-    }),
     updateProfile: build.mutation({
-      query: ({ id, body }) => ({
-        url: `${Route_URL}/${id}`,
+      query: (data) => ({
+        url: `${Route_URL}`,
         method: "PATCH",
-        data: body,
+        data: data,
       }),
       invalidatesTags: [TagTypes.profile],
     }),
     deleteProfile: build.mutation({
-      query: (id) => ({
-        url: `${Route_URL}/${id}`,
+      query: () => ({
+        url: `${Route_URL}`,
         method: "DELETE",
       }),
       invalidatesTags: [TagTypes.profile],
     }),
     // Profile Image
     updateProfileImage: build.mutation({
-      query: ({ id, body }) => ({
-        url: `${Route_URL}/${id}/image`,
+      query: (data) => ({
+        url: `${Route_URL}/image`,
         method: "POST",
         contentType: "multipart/form-data",
-        data: body,
+        data: data,
       }),
       invalidatesTags: [TagTypes.profile],
     }),
     deleteProfileImage: build.mutation({
       query: (id) => ({
-        url: `${Route_URL}/${id}/image`,
+        url: `${Route_URL}/image`,
         method: "DELETE",
       }),
       invalidatesTags: [TagTypes.profile],
-    }),
-    // Profile Projects
-    getProfileProjects: build.query({
-      query: (id: string) => ({
-        url: `${Route_URL}/${id}/projects`,
-        method: "GET",
-      }),
-      providesTags: [TagTypes.profile],
     }),
   }),
 });
 
 export const {
   useAddProfileMutation,
-  useGetProfilesQuery,
   useGetProfileQuery,
   useUpdateProfileMutation,
   useDeleteProfileMutation,
   useUpdateProfileImageMutation,
   useDeleteProfileImageMutation,
-  useGetProfileProjectsQuery,
 } = ProfileApi;

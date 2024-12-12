@@ -12,26 +12,27 @@ model user {
   email String 
   password String
   createdAt DateTime @default(now())
+  profile profiles?
   @@unique([email])
 }
 
 model profiles {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  profileId String @unique
+  userId String @db.ObjectId  @unique
   name String
   image String?
   title String 
   bio String?
+  resume String?
   contactInfo Contact_Info?
-  skills SKILLS_INFO[]
-  projects INFO
-  experiences INFO
-  certifications INFO
-  education INFO
-  blogs INFO
-  isActive Boolean @default(false)
+  showSkills Boolean @default(true)
+  showProjects Boolean @default(true)
+  showEducations Boolean @default(true)
+  showExperiences Boolean @default(true)
+  showCertifications Boolean @default(true)
+  showBlogs Boolean @default(true)
   createdAt DateTime @default(now())
-  
+  user  user @relation(fields: [userId], references: [id])
   @@unique([name, title])
 }
 
@@ -45,41 +46,6 @@ type Contact_Info {
   telegram String?
   twitter String?
   youtube String?
-}
-
-type INFO {
-  is_active Boolean @default(true)
-  ids String[] @db.ObjectId @default([])
-}
-
-type SKILLS_INFO {
-  is_active Boolean @default(true)
-  skills SKILLS_LIST[]
-}
-
-type SKILLS_LIST {
-  name String
-  ids String[] @db.ObjectId @default([])
-}
-
-model social_media {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  platform SOCIAL_MEDIA_PLATFORM
-  url String
-  createdAt DateTime @default(now())
-  @@unique([platform, url])
-}
-
-enum SOCIAL_MEDIA_PLATFORM {
-  LinkedIn
-  Twitter
-  Github
-  Facebook
-  Instagram
-  Youtube
-  Whatsapp
-  Telegram
-  Discord
 }
 
 model skills {
@@ -103,7 +69,7 @@ model skill_categories {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
   createdAt DateTime @default(now())
-  skills    skills[]
+  skills skills[]
   @@unique([name])
 }
 

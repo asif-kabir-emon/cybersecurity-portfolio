@@ -16,6 +16,25 @@ export const ProfileSchema = z.object({
       message: "Title must be at least 5 characters.",
     }),
   bio: z.string().optional(),
+  resume: z
+    .string()
+    .refine(
+      (val) => {
+        if (val.length > 1) {
+          try {
+            new URL(val);
+            return true;
+          } catch {
+            return false;
+          }
+        }
+        return true;
+      },
+      {
+        message: "Invalid Resume URL.",
+      },
+    )
+    .optional(),
   contactInfo: z
     .object({
       email: z
@@ -117,31 +136,6 @@ export const ProfileSchema = z.object({
           },
         )
         .optional(),
-    })
-    .optional(),
-  projects: z
-    .object({
-      ids: z.array(z.string()).optional(),
-    })
-    .optional(),
-  experiences: z
-    .object({
-      ids: z.array(z.string()).optional(),
-    })
-    .optional(),
-  certifications: z
-    .object({
-      ids: z.array(z.string()).optional(),
-    })
-    .optional(),
-  education: z
-    .object({
-      ids: z.array(z.string()).optional(),
-    })
-    .optional(),
-  blogs: z
-    .object({
-      ids: z.array(z.string()).optional(),
     })
     .optional(),
 });

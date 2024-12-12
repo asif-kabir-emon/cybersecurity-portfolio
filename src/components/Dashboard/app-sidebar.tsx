@@ -41,16 +41,11 @@ const data = [
         icon: LayoutDashboard,
       },
       {
-        title: "Create Profile",
-        url: "profiles/add-profile",
+        title: "profile",
+        url: "profiles",
         icon: Contact,
       },
     ],
-  },
-  {
-    title: "Profiles",
-    url: "profiles",
-    items: [],
   },
   {
     title: "Category",

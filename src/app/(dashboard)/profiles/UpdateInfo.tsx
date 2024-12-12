@@ -12,14 +12,13 @@ import TextAreaBox from "@/components/Form/TextAreaBox";
 import { ProfileSchema } from "@/schema/profile.schema";
 
 const UpdateProfileInfo = ({
-  profileId,
   profileData,
 }: {
-  profileId: string;
   profileData: {
     name: string;
     title: string;
     bio: string;
+    resume: string;
     contactInfo?: {
       email: string;
       phone: string;
@@ -42,10 +41,7 @@ const UpdateProfileInfo = ({
       position: "top-center",
     });
     try {
-      const response = await updatingProfileInfo({
-        id: profileId,
-        body: data,
-      }).unwrap();
+      const response = await updatingProfileInfo(data).unwrap();
       console.log(response);
 
       if (response?.success) {
@@ -95,6 +91,7 @@ const UpdateProfileInfo = ({
               name: profileData.name || "",
               title: profileData.title || "",
               bio: profileData.bio || "",
+              resume: profileData.resume || "",
               contactInfo: {
                 email: profileData.contactInfo?.email || "",
                 phone: profileData.contactInfo?.phone || "",
@@ -122,6 +119,11 @@ const UpdateProfileInfo = ({
                 required={true}
               />
               <TextAreaBox name="bio" label="Bio" />
+              <InputBox
+                name="resume"
+                label="Resume URL"
+                placeholder="Enter resume URL"
+              />
 
               <InputBox
                 name="contactInfo.email"
