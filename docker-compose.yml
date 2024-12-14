@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  client-dev:
+    image: personal-portfolio:1.0
+    container_name: personal-portfolio
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env

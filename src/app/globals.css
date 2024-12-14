@@ -28,3 +28,11 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+}

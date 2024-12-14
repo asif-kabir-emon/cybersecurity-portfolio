@@ -48,11 +48,21 @@ type Contact_Info {
   youtube String?
 }
 
+model skill_categories {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  order Int @default(0)
+  createdAt DateTime @default(now())
+  skills skills[]
+  @@unique([name])
+}
+
 model skills {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   categoryId String @db.ObjectId
   name String
   level SKILL_LEVELS
+  order Int @default(0)
   createdAt DateTime @default(now())
   category  skill_categories @relation(fields: [categoryId], references: [id])
   @@unique([categoryId, name])
@@ -63,14 +73,6 @@ enum SKILL_LEVELS {
   Intermediate
   Advanced
   Expert
-}
-
-model skill_categories {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  createdAt DateTime @default(now())
-  skills skills[]
-  @@unique([name])
 }
 
 model projects {
