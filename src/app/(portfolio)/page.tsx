@@ -5,7 +5,7 @@ import Projects from "./Projects";
 
 const HomePage = () => {
   return (
-    <div className="my-5 px-5 max-w-screen-lg mx-auto space-y-10">
+    <div className="my-5 px-5 max-w-screen-lg mx-auto space-y-7">
       <AboutMe />
       <Details />
       <Projects />
