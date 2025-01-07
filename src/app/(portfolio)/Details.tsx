@@ -54,29 +54,32 @@ const Details = () => {
     <div id="skills" className="pb-5">
       <h1 className="text-2xl font-bold">Details</h1>
       <div className="flex flex-col md:flex-row gap-7 items-start mt-5">
-        <div className="space-y-5 md:w-1/2">
-          {SkillsData.map((data, index) => (
-            <div key={index}>
-              <h2 className="text-lg font-semibold mb-3">{data.title}</h2>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {data.skills.map((skill, index) => (
-                  <div
-                    key={index}
-                    className="inline-block text-sm bg-gray-200 px-2 py-1 rounded"
-                  >
-                    {skill}
-                  </div>
-                ))}
+        <div className="md:w-1/2">
+          <h2 className="text-xl font-bold">Technical Expertise</h2>
+          <div className="space-y-5 mt-2">
+            {SkillsData.map((data, index) => (
+              <div key={index}>
+                <h2 className="text-md font-semibold mb-3">{data.title}</h2>
+                <div className="flex flex-wrap gap-2">
+                  {data.skills.map((skill, index) => (
+                    <div
+                      key={index}
+                      className="inline-block text-sm bg-gray-200 px-2 py-1 rounded"
+                    >
+                      {skill}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         <div>
           <div className="mt-2">
             <h2 className="text-xl font-bold">Certifications and Training</h2>
             <div className="space-y-4 mt-2">
               {CertificationsData.map((data, index) => (
-                <div key={index} className="mt-4">
+                <div key={index}>
                   <h2 className="text-lg font-semibold mb-2">{data.title}</h2>
                   <p className="text-md">
                     I am currently working towards the following certifications
