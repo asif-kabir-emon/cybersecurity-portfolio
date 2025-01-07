@@ -1,9 +1,9 @@
-import Home from "./Home";
+import AboutMe from "./AboutMe";
 
 const HomePage = () => {
   return (
     <div className="my-5 px-5 max-w-screen-lg mx-auto">
-      <Home />
+      <AboutMe />
     </div>
   );
 };

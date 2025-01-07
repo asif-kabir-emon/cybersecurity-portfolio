@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const menuItems = [
-  { name: "Home", link: "home" },
+  { name: "About Me", link: "about_me" },
   { name: "Skills", link: "skills" },
   { name: "Projects", link: "projects" },
   { name: "Contact", link: "contact" },
@@ -43,7 +43,7 @@ const Header = () => {
     >
       <div className="p-5 max-w-screen-lg mx-auto">
         <div className="flex justify-between items-center">
-          <p>Md Asif Kabir Emon</p>
+          <p className="font-semibold">Md Asif Kabir Emon</p>
           <div className="flex items-center">
             <div className="hidden md:flex">
               {menuItems.map((item, index) => (
