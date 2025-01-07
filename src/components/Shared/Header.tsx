@@ -96,7 +96,7 @@ const Header = () => {
         </div>
       </div>
       {isMenuOpen && (
-        <div className="flex flex-col items-center md:hidden top-0 left-0 w-full h-full bg-white z-50 overflow-y-auto relative">
+        <div className="flex flex-col items-center md:hidden top-0 left-0 w-full h-screen bg-white bg-opacity-[0.55] z-50 overflow-y-auto relative">
           {menuItems.map((item, index) => (
             <button
               key={index}

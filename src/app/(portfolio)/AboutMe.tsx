@@ -16,7 +16,7 @@ const info = {
 const AboutMe = () => {
   return (
     <div id="about_me" className="py-5">
-      <div className="flex flex-col md:flex-row items-center justify-center space-y-8 space-x-6">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-7 md:gap-8">
         <Image
           src={profile_photo}
           width={370}
