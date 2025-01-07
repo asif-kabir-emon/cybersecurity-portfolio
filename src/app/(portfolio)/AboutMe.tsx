@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React from "react";
 import profile_photo from "@/assets/profile-photo.jpg";
+import { navigateTo } from "@/utils/NavigateTo";
 
 const info = {
   name: "Md Asif Kabir Emon",
@@ -13,12 +14,6 @@ const info = {
 };
 
 const AboutMe = () => {
-  const navigateTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
   return (
     <div id="about_me" className="py-5">
       <div className="flex flex-col md:flex-row items-center justify-center space-y-8 space-x-6">
@@ -30,7 +25,7 @@ const AboutMe = () => {
           className="rounded-md"
         />
         <div className="space-y-4 justify-center items-center">
-          <h1 className="text-3xl font-semibold">Hi, I am {info.name}</h1>
+          <h1 className="text-3xl font-semibold">Hi, I'm {info.name}</h1>
           <h3 className="text-2xl ">{info.role}</h3>
           <p className="text-lg text-gray-700 text-justify">
             {info.description}

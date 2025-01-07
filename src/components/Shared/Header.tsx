@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { navigateTo } from "@/utils/NavigateTo";
 
 const menuItems = [
-  { name: "About Me", link: "about_me" },
+  { name: "About", link: "about_me" },
   { name: "Skills", link: "skills" },
   { name: "Projects", link: "projects" },
   { name: "Contact", link: "contact" },
@@ -12,13 +13,6 @@ const menuItems = [
 const Header = () => {
   const [boxShadow, setBoxShadow] = useState("0 0 0 0 rgba(0, 0, 0, 0)");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const navigateTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   useEffect(() => {
     const handleScroll = () => {
